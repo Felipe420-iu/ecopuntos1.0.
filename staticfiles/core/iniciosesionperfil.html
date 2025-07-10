@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio | Eco Puntos</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link rel="stylesheet" href="./css/iniciosesionperfil.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo-container text-center">
+      <img class="logo" src="./img/eco.jpg" alt="Logo Eco Puntos">
+      <h1>Eco Puntos</h1>
+    </div>
+    <nav class="menu text-center">
+      <a href="./iniciosesionperfil.html">inicio</a>
+      <a href="./perfil.html">Perfil</a>
+      <a href="#categorias">Categorías</a>
+      <a href="#historial">Historial</a>
+      <a href="./iniciosesion.html">Cerrar Sesión</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <!-- Bienvenida -->
+    <section id="dashboard" class="text-center">
+      <h2 style="color: #4caf50;">¡Hola, Sr Pepito Perez!</h2>
+      <p>Bienvenido a tu tablero personal. Aquí puedes gestionar tus puntos, explorar categorías de reciclaje y revisar tu actividad.</p>
+      <div class="dashboard-summary my-4">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="dashboard-card">
+              <i class="fas fa-recycle fa-3x" style="color: #4caf50;"></i>
+              <h4 style="color: #388e3c;">Puntos Acumulados</h4>
+              <p><strong>350</strong> puntos</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="dashboard-card">
+              <i class="fas fa-chart-line fa-3x" style="color: #4caf50;"></i>
+              <h4 style="color: #388e3c;">Categorías Recicladas</h4>
+              <p><strong>3</strong> categorías</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="dashboard-card">
+              <i class="fas fa-gift fa-3x" style="color: #4caf50;"></i>
+              <h4 style="color: #388e3c;">Recompensas Disponibles</h4>
+              <p><strong>2</strong> recompensas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explorar Categorías -->
+    <section id="categorias" class="my-5">
+      <h3 class="text-center" style="color:#4caf50;">Explora Categorías</h3>
+      <div class="categorias-contenedor">
+        <div class="categoria-item">
+          <img src="./img/plasticos.jpg" alt="Plásticos">
+          <p><strong>Plásticos:</strong> Aprende cómo reciclar y generar puntos con plásticos.</p>
+        </div>
+        <div class="categoria-item">
+          <img src="./img/vidrio.jpg" alt="Vidrio">
+          <p><strong>Vidrio:</strong> Dale nueva vida al vidrio y obtén recompensas.</p>
+        </div>
+        <div class="categoria-item">
+          <img src="./img/papel.jpg" alt="Papel">
+          <p><strong>Papel:</strong> Recicla papel y contribuye al medio ambiente.</p>
+        </div>
+        <div class="categoria-item">
+          <img src="./img/metales.jpg" alt="Metales">
+          <p><strong>Metales:</strong> Optimiza el reciclaje de metales y gana más puntos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historial de Reciclaje -->
+    <section id="historial" class="my-5">
+      <h3 style="color: #4caf50;" class="text-center">Historial de Actividades</h3>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Categoría</th>
+            <th>Puntos Obtenidos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-03-10</td>
+            <td>Plásticos</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>2025-03-15</td>
+            <td>Vidrio</td>
+            <td>30</td>
+          </tr>
+          <tr>
+            <td>2025-03-20</td>
+            <td>Papel</td>
+            <td>70</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content container">
+      <div class="row">
+        <div class="footer-left col-md-8">
+          <p>Centro de industria y construccion SENA </p>
+          <p>Teléfono: (+57) 324 960 5589 – (601) 000 000</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom text-center mt-3">
+      <p>© 2025 Eco Puntos. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>

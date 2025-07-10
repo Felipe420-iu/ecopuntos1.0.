@@ -1,0 +1,615 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial de Canjes | Eco Puntos</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4caf50;
+      --primary-dark: #388e3c;
+      --primary-light: #c8e6c9;
+      --accent: #8bc34a;
+      --text-dark: #263238;
+      --text-light: #f5f5f5;
+      --gray-light: #f9f9f9;
+      --gray: #e0e0e0;
+      --success: #66bb6a;
+      --info: #29b6f6;
+      --warning: #ffa726;
+      --gradient-1: linear-gradient(135deg, #43a047 0%, #7cb342 100%);
+      --gradient-2: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+    }
+    
+    body {
+      background: #e8f5e9;
+      font-family: 'Montserrat', sans-serif;
+      background-image: url('{% static "core/img/nature-3294681_1920 (1) (1).jpg" %}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center center;
+    }
+    
+    /* Barra de navegación moderna */
+    .header {
+      background: var(--gradient-1);
+      color: white;
+      padding: 15px 0;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      margin-right: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.1);
+    }
+    
+    .menu {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .menu a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .menu a:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* Estilos existentes */
+    .perfil-card {
+      background: #ffffff52;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(76,175,80,0.10);
+      padding: 3rem 2rem;
+      margin: 2rem auto 1.5rem auto;
+      max-width: 650px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .perfil-card h2 {
+      color: #000000;
+      font-weight: 700;
+      margin: 0;
+      font-size: 2.3rem;
+    }
+    .perfil-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #a5d6a7;
+      margin-bottom: 0;
+    }
+    .perfil-card h3 {
+      color: #678068;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .perfil-card p {
+      margin-bottom: 0.3rem;
+      font-size: 1.1rem;
+    }
+    .list-group-item {
+      font-size: 1rem;
+    }
+    .btn-ver-historial {
+      margin-top: 1rem;
+    }
+    .card {
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+    }
+    .card-body {
+      flex: 1 1 auto;
+    }
+    .card canvas {
+      width: 100% !important;
+      height: 220px !important;
+      max-height: 220px;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Nueva barra de navegación -->
+  <header class="header">
+    <div class="logo-container">
+      <img class="logo" src="{% static 'core/img/eco.jpg' %}" alt="Logo Eco Puntos">
+      <h1>Eco Puntos</h1>
+    </div>
+    <nav class="menu">
+      <a href="{% url 'dashusuario' %}"><i class="fas fa-home mr-2"></i>Inicio</a>
+      <a href="{% url 'perfil' %}"><i class="fas fa-user mr-2"></i>Mi Perfil</a>
+      <a href="{% url 'categorias' %}"><i class="fas fa-recycle mr-2"></i>Categorías</a>
+      <a href="{% url 'pagos' %}"><i class="fas fa-credit-card me-2"></i>Pagos</a>
+      <a href="{% url 'canjes' %}"><i class="fas fa-exchange-alt mr-2"></i>Canjes</a>
+      <a href="{% url 'historial' %}"><i class="fas fa-history mr-2"></i>Historial</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="perfil-card d-flex align-items-center justify-content-center">
+      <h2 id="saludoUsuario" style="margin:0;">¡Hola, {{ user.first_name|default:user.username }}!</h2>
+      {% if user.foto_perfil %}
+        <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil">
+      {% else %}
+        <img src="{% static 'core/img/default_profile.png' %}" alt="Foto de perfil">
+      {% endif %}
+    </div>
+    <!-- Tabla de Canjes -->
+    <!-- (Eliminada) -->
+    <!-- Tabla de Redenciones -->
+    <!-- (Eliminada) -->
+   
+    <!-- Modal para historial (ahora gráfica de canjes realizados) -->
+    <div class="modal fade" id="modalHistorial" tabindex="-1" role="dialog" aria-labelledby="modalHistorialLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background:#43a047;color:#fff;">
+            <h5 class="modal-title" id="modalHistorialLabel">Canjes realizados</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true" style="color:#fff;">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="background:#e8f5e9;">
+            <div class="table-responsive">
+              <table class="table table-bordered mb-0" style="background:#f1f8e9;border-radius:10px;">
+                <thead style="background:#a5d6a7;">
+                  <tr>
+                    <th style="color:#388e3c;">Fecha</th>
+                    <th style="color:#388e3c;">Puntos</th>
+                    <th style="color:#388e3c;">Dinero recibido</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaMovimientos"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal para puntos acumulados -->
+    <div class="modal fade" id="modalPuntos" tabindex="-1" role="dialog" aria-labelledby="modalPuntosLabel" aria-hidden="true" style="display:none;">
+      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background:#ffb300;color:#fff;">
+            <h5 class="modal-title" id="modalPuntosLabel">Puntos Acumulados</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true" style="color:#fff;">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <i class="fas fa-star fa-3x" style="color:#ffb300;"></i>
+            <h3 id="puntosAcumulados" style="margin-top:1rem;">0</h3>
+            <p>Total de puntos acumulados</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal para dinero recaudado -->
+    <div class="modal fade" id="modalDinero" tabindex="-1" role="dialog" aria-labelledby="modalDineroLabel" aria-hidden="true" style="display:none;">
+      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background:#29b6f6;color:#fff;">
+            <h5 class="modal-title" id="modalDineroLabel">Dinero Recaudado</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true" style="color:#fff;">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <i class="fas fa-money-bill-wave fa-3x" style="color:#29b6f6;"></i>
+            <h3 id="dineroRecaudado" style="margin-top:1rem;">$0</h3>
+            <p>Total de dinero recaudado</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </main>
+    <div class="container my-5">
+      <div class="row">
+        <!-- Gráfica 1: Puntos de tus recibos -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow" style="border-radius:18px;">
+            <div class="card-body text-center" style="background:#43a047;border-radius:18px 18px 0 0;">
+              <span style="font-size:2rem;color:#fff;"><i class="fas fa-star"></i> {{ total_puntos }}</span>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title text-center" style="color:#ff9800;">Puntos Acumulados</h5>
+              <canvas id="graficaPuntos"></canvas>
+            </div>
+            <div class="d-flex justify-content-center align-items-center pb-3">
+              <button class="btn btn-white rounded-circle shadow mx-2" style="width:44px;height:44px;border:2px solid #43a047;color:#43a047;" data-toggle="modal" data-target="#modalPuntos">
+                <i class="fas fa-plus"></i>
+              </button>
+              <button class="btn btn-white rounded-circle shadow mx-2" style="width:44px;height:44px;border:2px solid #43a047;color:#43a047;" data-toggle="modal" data-target="#modalHistorial">
+                <i class="fas fa-book"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Gráfica 2: Recibos -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow" style="border-radius:18px;">
+            <div class="card-body text-center" style="background:#43a047;border-radius:18px 18px 0 0;">
+              <span style="font-size:2rem;color:#fff;"><i class="fas fa-star"></i> ${{ total_dinero }}</span>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title text-center" style="color:#00bcd4;">Dinero Recibido</h5>
+              <canvas id="graficaRecibos"></canvas>
+            </div>
+            <div class="d-flex justify-content-center align-items-center pb-3">
+              <button class="btn btn-white rounded-circle shadow mx-2" style="width:44px;height:44px;border:2px solid #43a047;color:#43a047;" data-toggle="modal" data-target="#modalDinero">
+                <i class="fas fa-plus"></i>
+              </button>
+              <button class="btn btn-white rounded-circle shadow mx-2" style="width:44px;height:44px;border:2px solid #43a047;color:#43a047;" data-toggle="modal" data-target="#modalHistorial">
+                <i class="fas fa-book"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Gráfica 3: Gasto total -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow" style="border-radius:18px;">
+            <div class="card-body text-center" style="background:#43a047;border-radius:18px 18px 0 0;">
+              <span style="font-size:2rem;color:#fff;"><i class="fas fa-star"></i> {{ total_canjes }}</span>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title text-center" style="color:#4caf50;">Canjes realizados</h5>
+              <canvas id="graficaGasto"></canvas>
+            </div>
+            <div class="d-flex justify-content-center align-items-center pb-3">
+              <button class="btn btn-white rounded-circle shadow mx-2" style="width:44px;height:44px;border:2px solid #43a047;color:#43a047;" data-toggle="modal" data-target="#modalHistorial">
+                <i class="fas fa-plus"></i>
+              </button>
+              <button class="btn btn-white rounded-circle shadow mx-2" style="width:44px;height:44px;border:2px solid #43a047;color:#43a047;" data-toggle="modal" data-target="#modalHistorial">
+                <i class="fas fa-book"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Gráfica 4: Desglose -->
+        <div class="col-md-6 mb-4">
+          <div class="card shadow" style="border-radius:18px;">
+            <div class="card-body text-center" style="background:#ffb300;border-radius:18px 18px 0 0;">
+              <span style="font-size:2rem;color:#fff;"><i class="fas fa-chart-pie"></i></span>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title text-center" style="color:#43a047;">Desglose</h5>
+              <canvas id="graficaDesglose"></canvas>
+            </div>
+            <!-- Botones eliminados aquí -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+    /* Estilos del Footer */
+      .footer {
+        background: var(--gradient-1);
+        color: var(--text-light);
+        padding: 50px 0 20px;
+        position: relative;
+        margin-top: 50px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+      }
+      
+      .footer-title {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+      
+      .footer-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+      
+      .footer p {
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+      }
+      
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      
+      .social-link {
+        width: 40px;
+        height: 40px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: all 0.3s ease;
+      }
+      
+      .social-link:hover {
+        background: var(--accent);
+        transform: translateY(-3px);
+        color: white;
+        text-decoration: none;
+      }
+      
+      .footer-link {
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+        position: relative;
+        padding-left: 15px;
+      }
+      
+      .footer-link::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+      
+      .footer-link:hover {
+        color: white;
+        padding-left: 20px;
+        text-decoration: none;
+      }
+      
+      .footer-link:hover::before {
+        opacity: 1;
+      }
+      
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        margin-top: 30px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .footer-bottom p {
+        margin: 0;
+        font-size: 0.85rem;
+      }
+      
+      .footer i {
+        margin-right: 10px;
+        color: var(--accent);
+      }
+      </style>
+      
+      // ... existing code ...
+      
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <h4 class="footer-title">Eco Puntos</h4>
+              <p>Transformando el reciclaje en beneficios para ti y para el planeta.</p>
+              <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <h4 class="footer-title">Enlaces Rápidos</h4>
+              <a href="{% url 'dashusuario' %}" class="footer-link">Inicio</a>
+              <a href="{% url 'categorias' %}" class="footer-link">Categorías</a>
+              <a href="{% url 'canjes' %}" class="footer-link">Canjes</a>
+              <a href="{% url 'historial' %}" class="footer-link">Historial</a>
+            </div>
+            <div class="col-md-4 mb-4">
+              <h4 class="footer-title">Contacto</h4>
+              <p><i class="fas fa-map-marker-alt"></i>Calle 72 # 10-34 Torre A Oficina 1004</p>
+              <p><i class="fas fa-phone"></i>(+57) 317 405 0510</p>
+              <p><i class="fas fa-envelope"></i>contacto@ecopuntos.com</p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>© 2023 Eco Puntos. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </footer>
+  <script>
+    // Datos simulados de usuario y movimientos por material
+    const usuario = {
+      nombre: "Juan Pérez",
+      foto: "./img/perfil.jpg",
+      canjes: 8,
+      puntos: 350,
+      pesos: 42000,
+      movimientos: [
+        { fecha: "2024-06-01", material: "Plástico", puntos: 50, dinero: 500 },
+        { fecha: "2024-06-03", material: "Vidrio", puntos: 30, dinero: 300 },
+        { fecha: "2024-06-07", material: "Cartón", puntos: 20, dinero: 200 },
+        { fecha: "2024-05-15", material: "Papel", puntos: 80, dinero: 800 },
+        { fecha: "2024-04-20", material: "Plástico", puntos: 100, dinero: 1000 },
+        { fecha: "2023-12-10", material: "Vidrio", puntos: 40, dinero: 400 },
+        { fecha: "2023-11-05", material: "Cartón", puntos: 30, dinero: 300 },
+        { fecha: "2023-06-18", material: "Papel", puntos: 10, dinero: 100 }
+      ]
+    };
+
+    // Mostrar saludo personalizado si lo deseas
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("saludoUsuario").textContent = "¡Hola, " + usuario.nombre + "!";
+
+      // Añadir evento a todos los botones de historial (libro)
+      document.querySelectorAll('button[data-target="#modalHistorial"]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          mostrarTablaMovimientos(usuario.movimientos);
+        });
+      });
+    });
+
+    // Mostrar historial detallado en el modal
+    document.getElementById("btnVerHistorial").onclick = function() {
+      mostrarTablaMovimientos(usuario.movimientos);
+      $('#modalHistorial').modal('show');
+    };
+
+    // Función para mostrar movimientos en tabla
+    function mostrarTablaMovimientos(movs) {
+      const tabla = document.getElementById("tablaMovimientos");
+      if (!tabla) return;
+      tabla.innerHTML = "";
+      if (movs.length === 0) {
+        tabla.innerHTML = "<tr><td colspan='3' class='text-center'>No hay movimientos en este periodo.</td></tr>";
+        return;
+      }
+      movs.forEach(mov => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${mov.fecha}</td><td>+${mov.puntos} pts</td><td>$${mov.dinero}</td>`;
+        tabla.appendChild(tr);
+      });
+    }
+  </script>
+  <!-- Scripts de Bootstrap para el modal -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Gráfica 1: Puntos de tus recibos
+  new Chart(document.getElementById('graficaPuntos'), {
+    type: 'bar',
+    data: {
+      labels: {{ meses_json|safe }},
+      datasets: [{
+        label: 'Puntos',
+        data: {{ puntos_por_mes_json|safe }},
+        backgroundColor: 'rgba(255, 152, 0, 0.7)',
+        borderColor: 'rgba(255, 152, 0, 1)',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
+  });
+
+  // Gráfica 2: Dinero recibido
+  new Chart(document.getElementById('graficaRecibos'), {
+    type: 'bar',
+    data: {
+      labels: {{ meses_json|safe }},
+      datasets: [{
+        label: 'Dinero recibido',
+        data: {{ dinero_por_mes_json|safe }},
+        backgroundColor: 'rgba(0, 188, 212, 0.7)',
+        borderColor: 'rgba(0, 188, 212, 1)',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
+  });
+
+  // Gráfica 3: Canjes realizados
+  new Chart(document.getElementById('graficaGasto'), {
+    type: 'bar',
+    data: {
+      labels: {{ meses_json|safe }},
+      datasets: [{
+        label: 'Canjes realizados',
+        data: {{ canjes_por_mes_json|safe }},
+        backgroundColor: 'rgba(76, 175, 80, 0.7)',
+        borderColor: 'rgba(56, 142, 60, 1)',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: { plugins: { legend: { display: false } } }
+  });
+
+  // Gráfica 4: Desglose (dona de los tres indicadores principales)
+  new Chart(document.getElementById('graficaDesglose'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Canjes realizados', 'Dinero recibido', 'Puntos acumulados'],
+      datasets: [{
+        data: [{{ total_canjes }}, {{ total_dinero }}, {{ total_puntos }}],
+        backgroundColor: [
+          '#4caf50', // Verde para canjes
+          '#00bcd4', // Azul para dinero
+          '#ffb300'  // Amarillo para puntos
+        ]
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'right' }
+      }
+    }
+  });
+</script>
+<!-- Scripts de Bootstrap para el modal -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,760 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamiento de Rutas - Eco Puntos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #27ae60;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --danger-color: #e74c3c;
+            --warning-color: #f1c40f;
+            --info-color: #3498db;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding: 20px 0;
+            position: relative;
+            background: url('{% static "core/img/eco-background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        /* Overlay más sutil para que el fondo luzca natural */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.10) 100%);
+            backdrop-filter: blur(1px);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .main-container, .header-section, .scheduling-container, .form-section, .calendar-container, .summary-card, .alert-custom {
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-section,
+        .scheduling-container,
+        .form-section,
+        .calendar-container,
+        .summary-card,
+        .alert-custom {
+            background: rgba(255,255,255,0.85) !important; /* Blanco translúcido */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            border-radius: 18px;
+            padding: 20px 24px !important;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .header-section {
+            margin-bottom: 24px;
+        }
+        .scheduling-container {
+            margin-bottom: 24px;
+        }
+        .form-section {
+            margin-bottom: 18px;
+        }
+        .calendar-container {
+            margin-bottom: 16px;
+        }
+        .summary-card {
+            margin-bottom: 12px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .material-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+        }
+
+        .material-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(46, 204, 113, 0.05);
+        }
+
+        .material-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .time-slot {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary-color);
+            background: rgba(46, 204, 113, 0.05);
+        }
+
+        .time-slot.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .time-slot.unavailable {
+            background: #f8f9fa;
+            border-color: #dee2e6;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 2px;
+        }
+
+        .calendar-day:hover {
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .calendar-day.selected {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .calendar-day.disabled {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .alert-custom {
+            border-radius: 15px;
+            border: none;
+            padding: 20px;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .step-number.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .step-number.completed {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header-section,
+            .scheduling-container,
+            .form-section,
+            .calendar-container,
+            .summary-card,
+            .alert-custom {
+                padding: 10px 6px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-section">
+            <img src="{% static 'core/img/eco.jpg' %}" alt="Eco Puntos Logo" class="logo">
+            <h1 class="h2 mb-2">Agendar Ruta de Recolección</h1>
+            <p class="text-muted">Programa tu cita para la recolección de materiales reciclables</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="scheduling-container">
+            <div class="progress-step">
+                <div class="step-number active" id="step1">1</div>
+                <div>
+                    <h6 class="mb-0">Información Personal</h6>
+                    <small class="text-muted">Datos del solicitante</small>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="step-number" id="step2">2</div>
+                <div>
+                    <h6 class="mb-0">Materiales</h6>
+                    <small class="text-muted">Selecciona qué reciclar</small>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="step-number" id="step3">3</div>
+                <div>
+                    <h6 class="mb-0">Fecha y Hora</h6>
+                    <small class="text-muted">Escoge tu horario</small>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="step-number" id="step4">4</div>
+                <div>
+                    <h6 class="mb-0">Confirmación</h6>
+                    <small class="text-muted">Revisa y confirma</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="scheduling-container">
+            <form id="schedulingForm">
+                <!-- Paso 1: Información Personal -->
+                <div class="form-step active" id="formStep1">
+                    <div class="form-section">
+                        <h4 class="mb-4"><i class="fas fa-user me-2"></i>Información Personal</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fullName" class="form-label">Nombre Completo *</label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Teléfono *</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="document" class="form-label">Documento de Identidad</label>
+                                <input type="text" class="form-control" id="document">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Dirección Completa *</label>
+                            <textarea class="form-control" id="address" rows="3" placeholder="Incluye barrio, referencias y detalles para ubicar fácilmente" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notas Adicionales</label>
+                            <textarea class="form-control" id="notes" rows="2" placeholder="Información adicional que consideres importante"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 2: Selección de Materiales -->
+                <div class="form-step" id="formStep2">
+                    <div class="form-section">
+                        <h4 class="mb-4"><i class="fas fa-recycle me-2"></i>Materiales a Recolectar</h4>
+                        <p class="text-muted mb-4">Selecciona los tipos de materiales que tienes para reciclar:</p>
+                        <div class="row" id="materialsContainer">
+                            <div class="col-md-4 mb-3">
+                                <div class="material-card" data-material="plastico">
+                                    <div class="material-icon" style="background: rgba(52, 152, 219, 0.1); color: #3498db;">
+                                        <i class="fas fa-bottle-water"></i>
+                                    </div>
+                                    <h6>Plástico</h6>
+                                    <p class="text-muted small mb-2">Botellas, envases, bolsas</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="material-card" data-material="papel">
+                                    <div class="material-icon" style="background: rgba(155, 89, 182, 0.1); color: #9b59b6;">
+                                        <i class="fas fa-newspaper"></i>
+                                    </div>
+                                    <h6>Papel y Cartón</h6>
+                                    <p class="text-muted small mb-2">Periódicos, cajas, revistas</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="material-card" data-material="metal">
+                                    <div class="material-icon" style="background: rgba(241, 196, 15, 0.1); color: #f1c40f;">
+                                        <i class="fas fa-cog"></i>
+                                    </div>
+                                    <h6>Metales</h6>
+                                    <p class="text-muted small mb-2">Latas, aluminio, hierro</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="material-card" data-material="vidrio">
+                                    <div class="material-icon" style="background: rgba(46, 204, 113, 0.1); color: #2ecc71;">
+                                        <i class="fas fa-wine-bottle"></i>
+                                    </div>
+                                    <h6>Vidrio</h6>
+                                    <p class="text-muted small mb-2">Botellas, frascos, cristal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary" onclick="prevStep(1)">
+                            <i class="fas fa-arrow-left me-2"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Fecha y Hora -->
+                <div class="form-step" id="formStep3">
+                    <div class="form-section">
+                        <h4 class="mb-4"><i class="fas fa-calendar me-2"></i>Seleccionar Fecha y Hora</h4>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Selecciona la Fecha</h6>
+                                <div class="calendar-container">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="changeMonth(-1)">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h6 class="mb-0" id="currentMonth"></h6>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="changeMonth(1)">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    <div class="row g-1" id="calendarDays">
+                                        <!-- Calendar days will be generated here -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Horarios Disponibles</h6>
+                                <div id="timeSlots">
+                                    <!-- Time slots will be generated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary" onclick="prevStep(2)">
+                            <i class="fas fa-arrow-left me-2"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                            Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 4: Confirmación -->
+                <div class="form-step" id="formStep4">
+                    <div class="form-section">
+                        <h4 class="mb-4"><i class="fas fa-check-circle me-2"></i>Confirmar Agendamiento</h4>
+                        
+                        <div class="summary-card">
+                            <h5 class="mb-3">Resumen de tu Solicitud</h5>
+                            <div id="summaryContent">
+                                <!-- Summary will be generated here -->
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info alert-custom mt-4">
+                            <h6><i class="fas fa-info-circle me-2"></i>Información Importante</h6>
+                            <ul class="mb-0">
+                                <li>Nuestro equipo se pondrá en contacto contigo 1 día antes de la recolección</li>
+                                <li>Ten los materiales listos y separados según el tipo</li>
+                                <li>La recolección es gratuita para cantidades superiores a 5 kg</li>
+                                <li>Recibirás puntos Eco según el peso y tipo de materiales</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary" onclick="prevStep(3)">
+                            <i class="fas fa-arrow-left me-2"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="confirmScheduling()">
+                            <i class="fas fa-calendar-check me-2"></i> Confirmar Agendamiento
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Variables globales
+        let currentStep = 1;
+        let selectedMaterials = [];
+        let selectedDate = null;
+        let selectedTime = null;
+        let currentMonth = new Date();
+        let formDataUser = {
+            fullName: '',
+            phone: '',
+            email: '',
+            document: '',
+            address: '',
+            notes: ''
+        };
+
+        // Precargar datos si el usuario está autenticado (Django context)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Si tienes variables de usuario en el contexto, puedes usarlas así:
+            if (window.user_full_name) document.getElementById('fullName').value = window.user_full_name;
+            if (window.user_email) document.getElementById('email').value = window.user_email;
+            if (window.user_phone) document.getElementById('phone').value = window.user_phone;
+            if (window.user_address) document.getElementById('address').value = window.user_address;
+            generateCalendar();
+            setupMaterialSelection();
+            // Ocultar todos los pasos menos el primero
+            document.querySelectorAll('.form-step').forEach((el, idx) => {
+                if (idx === 0) {
+                    el.classList.add('active');
+                    el.style.display = 'block';
+                } else {
+                    el.classList.remove('active');
+                    el.style.display = 'none';
+                }
+            });
+        });
+
+        function saveStep1() {
+            formDataUser.fullName = document.getElementById('fullName').value;
+            formDataUser.phone = document.getElementById('phone').value;
+            formDataUser.email = document.getElementById('email').value;
+            formDataUser.document = document.getElementById('document').value;
+            formDataUser.address = document.getElementById('address').value;
+            formDataUser.notes = document.getElementById('notes').value;
+        }
+
+        function restoreStep1() {
+            document.getElementById('fullName').value = formDataUser.fullName;
+            document.getElementById('phone').value = formDataUser.phone;
+            document.getElementById('email').value = formDataUser.email;
+            document.getElementById('document').value = formDataUser.document;
+            document.getElementById('address').value = formDataUser.address;
+            document.getElementById('notes').value = formDataUser.notes;
+        }
+
+        function nextStep(step) {
+            if (validateCurrentStep()) {
+                if (currentStep === 1) saveStep1();
+                showStep(step);
+            }
+        }
+
+        function prevStep(step) {
+            if (step === 1) restoreStep1();
+            showStep(step);
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.form-step').forEach((el, idx) => {
+                if (idx === step - 1) {
+                    el.classList.add('active');
+                    el.style.display = 'block';
+                } else {
+                    el.classList.remove('active');
+                    el.style.display = 'none';
+                }
+            });
+            document.querySelectorAll('.step-number').forEach((el, index) => {
+                el.classList.remove('active', 'completed');
+                if (index + 1 < step) {
+                    el.classList.add('completed');
+                } else if (index + 1 === step) {
+                    el.classList.add('active');
+                }
+            });
+            currentStep = step;
+            if (step === 1) restoreStep1();
+            if (step === 4) generateSummary();
+        }
+
+        function validateCurrentStep() {
+            switch(currentStep) {
+                case 1:
+                    const fullName = document.getElementById('fullName').value;
+                    const phone = document.getElementById('phone').value;
+                    const address = document.getElementById('address').value;
+                    if (!fullName || !phone || !address) {
+                        showToast('Por favor completa todos los campos obligatorios', 'danger');
+                        return false;
+                    }
+                    return true;
+                case 2:
+                    if (selectedMaterials.length === 0) {
+                        showToast('Selecciona al menos un tipo de material', 'warning');
+                        return false;
+                    }
+                    return true;
+                case 3:
+                    if (!selectedDate || !selectedTime) {
+                        showToast('Selecciona una fecha y hora', 'warning');
+                        return false;
+                    }
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        function setupMaterialSelection() {
+            document.querySelectorAll('.material-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const material = this.dataset.material;
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        selectedMaterials = selectedMaterials.filter(m => m.type !== material);
+                    } else {
+                        this.classList.add('selected');
+                        selectedMaterials.push({
+                            type: material,
+                            name: this.querySelector('h6').textContent
+                        });
+                    }
+                });
+            });
+        }
+
+        function generateCalendar() {
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            document.getElementById('currentMonth').textContent = `${monthNames[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`;
+            const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+            const lastDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+            const today = new Date();
+            const calendarDays = document.getElementById('calendarDays');
+            calendarDays.innerHTML = '';
+            const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            dayNames.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'col text-center fw-bold text-muted small';
+                dayHeader.textContent = day;
+                calendarDays.appendChild(dayHeader);
+            });
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'col';
+                calendarDays.appendChild(emptyDay);
+            }
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'col calendar-day';
+                dayElement.textContent = day;
+                const currentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+                if (currentDate < today || currentDate.getDay() === 0) {
+                    dayElement.classList.add('disabled');
+                } else {
+                    dayElement.addEventListener('click', function() {
+                        document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedDate = currentDate;
+                        generateTimeSlots();
+                    });
+                }
+                calendarDays.appendChild(dayElement);
+            }
+        }
+
+        function changeMonth(direction) {
+            currentMonth.setMonth(currentMonth.getMonth() + direction);
+            generateCalendar();
+            selectedDate = null;
+            selectedTime = null;
+            document.getElementById('timeSlots').innerHTML = '';
+        }
+
+        function generateTimeSlots() {
+            const timeSlots = document.getElementById('timeSlots');
+            timeSlots.innerHTML = '';
+            const slots = ['08:00', '09:00', '10:00', '11:00', '12:00','14:00', '15:00', '16:00', '17:00', '18:00'];
+            slots.forEach(slot => {
+                const slotElement = document.createElement('div');
+                slotElement.className = 'time-slot';
+                slotElement.textContent = slot;
+                slotElement.onclick = function() {
+                    document.querySelectorAll('.time-slot').forEach(d => d.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedTime = slot;
+                };
+                timeSlots.appendChild(slotElement);
+            });
+        }
+
+        function generateSummary() {
+            let materiales = selectedMaterials.map(m => m.name).join(', ');
+            let fecha = selectedDate ? selectedDate.toLocaleDateString() : '';
+            let hora = selectedTime || '';
+            document.getElementById('summaryContent').innerHTML = `
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Nombre:</b> ${formDataUser.fullName || ''}</li>
+                    <li class="list-group-item"><b>Teléfono:</b> ${formDataUser.phone || ''}</li>
+                    <li class="list-group-item"><b>Email:</b> ${formDataUser.email || ''}</li>
+                    <li class="list-group-item"><b>Documento:</b> ${formDataUser.document || ''}</li>
+                    <li class="list-group-item"><b>Dirección:</b> ${formDataUser.address || ''}</li>
+                    <li class="list-group-item"><b>Notas:</b> ${formDataUser.notes || ''}</li>
+                    <li class="list-group-item"><b>Materiales:</b> ${materiales}</li>
+                    <li class="list-group-item"><b>Fecha:</b> ${fecha}</li>
+                    <li class="list-group-item"><b>Hora:</b> ${hora}</li>
+                </ul>
+            `;
+        }
+
+        function confirmScheduling() {
+            if (!formDataUser.fullName || !formDataUser.phone || !formDataUser.address || !selectedDate || !selectedTime) {
+                showToast('Completa todos los datos obligatorios', 'danger');
+                return;
+            }
+            const data = {
+                fecha: selectedDate.toISOString().split('T')[0],
+                hora: selectedTime,
+                barrio: formDataUser.address,
+                referencia: formDataUser.notes,
+                direccion: formDataUser.address,
+                materiales: selectedMaterials.map(m => m.name).join(', ')
+            };
+            fetch('/agendar_ruta_usuario/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: new URLSearchParams(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    showToast(result.message, 'success');
+                    setTimeout(() => window.location.reload(), 2000);
+                } else {
+                    showToast(result.message, 'danger');
+                }
+            });
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function showToast(msg, type) {
+            // Simple toast para feedback
+            let toast = document.createElement('div');
+            toast.className = `alert alert-${type || 'info'} alert-custom fade show`;
+            toast.style.position = 'fixed';
+            toast.style.top = '20px';
+            toast.style.right = '20px';
+            toast.style.zIndex = 9999;
+            toast.innerHTML = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3000);
+        }
+    </script>
+</body>
+</html>

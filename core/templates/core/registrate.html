@@ -1,0 +1,547 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro | Eco Puntos</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4caf50;
+            --primary-dark: #388e3c;
+            --primary-light: #c8e6c9;
+            --gradient-1: linear-gradient(135deg, #43a047 0%, #7cb342 100%);
+            --gradient-2: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            min-height: 100vh;
+            background: url('{% static "core/img/nature-3294681_1920 (1) (1).jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            backdrop-filter: blur(1px);
+            z-index: 0;
+        }
+
+        .register-container {
+            position: relative;
+            z-index: 1;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            width: 100%;
+            max-width: 1000px;
+            margin: 2rem;
+        }
+
+        .row {
+            margin: 0;
+        }
+
+        .logo-side {
+            background: var(--gradient-1);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-side::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('{% static "core/img/eco.jpg" %}') no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-side {
+            padding: 3rem;
+        }
+
+        .register-title {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .form-floating {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-floating input {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem 1rem 1rem 2.5rem;
+            height: auto;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-floating input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+        }
+
+        .form-floating label {
+            padding-left: 2.5rem;
+            color: #666;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 1.15rem;
+            color: #666;
+            z-index: 2;
+        }
+
+        .register-btn {
+            background: var(--gradient-1);
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .register-btn:hover {
+            background: var(--gradient-2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: #666;
+        }
+
+        .login-link a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: var(--primary-dark);
+        }
+
+        .eco-footer {
+            text-align: center;
+            color: #666;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .register-container {
+                margin: 1rem;
+            }
+
+            .logo-side {
+                padding: 2rem;
+            }
+
+            .form-side {
+                padding: 2rem;
+            }
+
+            .logo-img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="row">
+            <div class="col-lg-6 logo-side">
+                <img src="{% static 'core/img/eco.jpg' %}" alt="Logo de Eco Puntos" class="logo-img">
+                <h2 class="mb-4">¡Únete a Eco Puntos!</h2>
+                <p class="text-center">Sé parte del cambio y ayuda a crear un futuro más sostenible</p>
+            </div>
+            <div class="col-lg-6 form-side">
+                <h2 class="text-center mb-4">Crea tu Cuenta</h2>
+                <h3 class="text-center">Registro</h3>
+                <form method="POST" action="{% url 'registrate' %}" id="registroForm">
+                    {% csrf_token %}
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="form-group mb-3">
+                        <label for="username"><i class="fas fa-user me-2"></i>Nombre de Usuario</label>
+                        <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" id="username" name="username" required>
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="email"><i class="fas fa-envelope me-2"></i>Correo Electrónico</label>
+                        <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="email" name="email" required>
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password1"><i class="fas fa-lock me-2"></i>Contraseña</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" id="password1" name="password1" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword1">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            {% if form.password1.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.password1.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="password-strength mt-2" id="passwordStrength">
+                            <div class="progress" style="height: 5px;">
+                                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <small class="form-text text-muted">La contraseña debe tener al menos 8 caracteres, incluir letras y números.</small>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password2"><i class="fas fa-lock me-2"></i>Confirmar Contraseña</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" id="password2" name="password2" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            {% if form.password2.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.password2.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="terminos" name="terminos" required>
+                            <label class="form-check-label" for="terminos">
+                                Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#terminosModal">Términos y Condiciones</a>
+                            </label>
+                        </div>
+                    </div>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <button type="submit" class="register-btn" id="submitBtn">Registrarse</button>
+                </form>
+                <div class="login-link">
+                    ¿Ya tienes una cuenta? <a href="{% url 'iniciosesion' %}">Inicia Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Verificación -->
+    <div class="modal fade" id="verificacionModal" tabindex="-1" aria-labelledby="verificacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="verificacionModalLabel">
+                        <i class="fas fa-shield-alt text-success me-2"></i>
+                        Verificación de Cuenta
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <div class="text-center mb-4">
+                        <div class="verification-icon mb-3">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <p>Hemos enviado un código de verificación a tu correo electrónico.</p>
+                        <p class="small text-muted">Por favor, ingresa el código para completar tu registro.</p>
+                    </div>
+                    <form id="verificationForm">
+                        <div class="verification-code-container mb-4">
+                            <input type="text" maxlength="1" class="verification-input" autofocus>
+                            <input type="text" maxlength="1" class="verification-input">
+                            <input type="text" maxlength="1" class="verification-input">
+                            <input type="text" maxlength="1" class="verification-input">
+                            <input type="text" maxlength="1" class="verification-input">
+                            <input type="text" maxlength="1" class="verification-input">
+                        </div>
+                        <button type="button" class="btn register-btn w-100" onclick="verificarCodigo()">
+                            Verificar Código
+                            <i class="fas fa-check-circle ms-2"></i>
+                        </button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p class="small">¿No recibiste el código? <a href="#" class="text-success" onclick="reenviarCodigo()">Reenviar código</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Términos y Condiciones -->
+    <div class="modal fade" id="terminosModal" tabindex="-1" aria-labelledby="terminosModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="terminosModalLabel">
+                        <i class="fas fa-file-contract text-success me-2"></i>
+                        Términos y Condiciones
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Términos de Uso de Eco Puntos</h5>
+                    <p>Al registrarte en Eco Puntos, aceptas los siguientes términos y condiciones:</p>
+                    
+                    <h6>1. Registro y Cuenta</h6>
+                    <p>Para utilizar Eco Puntos, debes crear una cuenta proporcionando información precisa y completa. Eres responsable de mantener la confidencialidad de tu contraseña y de todas las actividades que ocurran bajo tu cuenta.</p>
+                    
+                    <h6>2. Uso del Servicio</h6>
+                    <p>Eco Puntos es una plataforma que incentiva el reciclaje mediante un sistema de puntos canjeables. Te comprometes a utilizar el servicio de manera ética y conforme a las leyes aplicables.</p>
+                    
+                    <h6>3. Privacidad</h6>
+                    <p>Tu privacidad es importante para nosotros. Consulta nuestra Política de Privacidad para entender cómo recopilamos, usamos y protegemos tu información personal.</p>
+                    
+                    <h6>4. Propiedad Intelectual</h6>
+                    <p>Todo el contenido de Eco Puntos, incluyendo logotipos, textos, gráficos y software, está protegido por derechos de autor y otras leyes de propiedad intelectual.</p>
+                    
+                    <h6>5. Modificaciones</h6>
+                    <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Las modificaciones entrarán en vigor inmediatamente después de su publicación en la plataforma.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="aceptarTerminos()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Función para mostrar el modal de verificación
+        function mostrarModalVerificacion() {
+            var modal = new bootstrap.Modal(document.getElementById('verificacionModal'));
+            modal.show();
+        }
+
+        // Manejar la entrada del código de verificación
+        document.querySelectorAll('.verification-input').forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key >= 0 && e.key <= 9) {
+                    if (index < 5) {
+                        document.querySelectorAll('.verification-input')[index + 1].focus();
+                    }
+                } else if (e.key === 'Backspace') {
+                    if (index > 0) {
+                        document.querySelectorAll('.verification-input')[index - 1].focus();
+                    }
+                }
+            });
+        });
+
+        // Verificar código
+        function verificarCodigo() {
+            // Aquí puedes agregar la lógica de verificación
+            window.location.href = "{% url 'dashusuario' %}";
+        }
+
+        // Reenviar código
+        function reenviarCodigo() {
+            // Aquí puedes agregar la lógica para reenviar el código
+            alert('Se ha reenviado el código de verificación a tu correo electrónico.');
+        }
+
+        // Mostrar/ocultar contraseña
+        document.getElementById('togglePassword1').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password1');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('togglePassword2').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password2');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Validación de contraseña en tiempo real
+        document.getElementById('password1').addEventListener('input', function() {
+            const password = this.value;
+            const progressBar = document.querySelector('#passwordStrength .progress-bar');
+            let strength = 0;
+            
+            // Criterios de fortaleza
+            if (password.length >= 8) strength += 25;
+            if (password.match(/[a-z]+/)) strength += 25;
+            if (password.match(/[A-Z]+/)) strength += 25;
+            if (password.match(/[0-9]+/)) strength += 25;
+            
+            // Actualizar barra de progreso
+            progressBar.style.width = strength + '%';
+            
+            // Cambiar color según fortaleza
+            if (strength <= 25) {
+                progressBar.className = 'progress-bar bg-danger';
+            } else if (strength <= 50) {
+                progressBar.className = 'progress-bar bg-warning';
+            } else if (strength <= 75) {
+                progressBar.className = 'progress-bar bg-info';
+            } else {
+                progressBar.className = 'progress-bar bg-success';
+            }
+        });
+
+        // Validar que las contraseñas coincidan
+        document.getElementById('password2').addEventListener('input', function() {
+            const password1 = document.getElementById('password1').value;
+            const password2 = this.value;
+            
+            if (password1 !== password2) {
+                this.classList.add('is-invalid');
+                if (!this.nextElementSibling.nextElementSibling) {
+                    const feedback = document.createElement('div');
+                    feedback.className = 'invalid-feedback';
+                    feedback.textContent = 'Las contraseñas no coinciden';
+                    this.parentNode.appendChild(feedback);
+                }
+            } else {
+                this.classList.remove('is-invalid');
+                if (this.nextElementSibling.nextElementSibling) {
+                    this.nextElementSibling.nextElementSibling.remove();
+                }
+            }
+        });
+
+        // Aceptar términos y condiciones
+        function aceptarTerminos() {
+            document.getElementById('terminos').checked = true;
+        }
+
+        // Validación del formulario antes de enviar
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            const password1 = document.getElementById('password1').value;
+            const password2 = document.getElementById('password2').value;
+            
+            if (password1 !== password2) {
+                e.preventDefault();
+                alert('Las contraseñas no coinciden');
+                return false;
+            }
+            
+            if (!document.getElementById('terminos').checked) {
+                e.preventDefault();
+                alert('Debes aceptar los términos y condiciones');
+                return false;
+            }
+            
+            // Si todo está correcto, el formulario se enviará
+            // Aquí podrías mostrar un indicador de carga
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
+        });
+    </script>
+</body>
+</html>
