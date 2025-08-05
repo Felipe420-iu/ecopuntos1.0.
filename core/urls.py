@@ -12,7 +12,10 @@ urlpatterns = [
     path('canjes/', views.solicitar_canje, name='solicitar_canje'),
     path('historial/', views.historial, name='historial'),
     path('logros/', views.logros, name='logros'),
+<<<<<<< HEAD
     path('sesiones-activas/', views.sesiones_activas, name='sesiones_activas'),
+=======
+>>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
     path('recompensas/', views.recompensas, name='recompensas'),
     path('configuracion/', views.configuracion, name='configuracion'),
     path('pagos/', views.pagos, name='pagos'),
@@ -58,11 +61,14 @@ urlpatterns = [
     path('admin/redemptions/<int:redencion_id>/approve/', aprobar_redencion, name='aprobar_redencion'),
     path('admin/redemptions/<int:redencion_id>/reject/', rechazar_redencion, name='rechazar_redencion'),
     path('retiroadmin/', views.retiroadmin, name='retiroadmin'),
+<<<<<<< HEAD
     # Nuevas rutas para estadísticas avanzadas y seguridad
     path('advanced-statistics/', views.get_advanced_statistics, name='get_advanced_statistics'),
     path('security-analytics/', views.get_security_analytics, name='get_security_analytics'),
     path('export-statistics/', views.export_statistics, name='export_statistics'),
     path('cleanup-sessions/', views.cleanup_expired_sessions, name='cleanup_expired_sessions'),
     path('security-monitor/', views.security_monitor, name='security_monitor'),
+=======
+>>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 ]
 

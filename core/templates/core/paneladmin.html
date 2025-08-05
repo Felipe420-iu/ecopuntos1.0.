@@ -167,6 +167,7 @@
         .action-btn:hover {
             transform: translateY(-2px);
         }
+<<<<<<< HEAD
 
         /* Floating Button Styles */
         .float-plus-btn {
@@ -240,6 +241,70 @@
 <body>
     <!-- Sidebar Admin Simplificado -->
     {% include 'core/components/sidebar_admin_simplificado.html' %}
+=======
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <div class="sidebar-header">
+            <img src="{% static 'core/img/eco.jpg' %}" alt="Admin Logo" class="admin-logo">
+            <h5 class="mb-0">Panel Administrativo</h5>
+            <small class="text-muted">Eco Puntos</small>
+        </div>
+        <ul class="nav flex-column mt-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'usuarioadmin' %}">
+                    <span style="position: relative; display: inline-block;">
+                        <i class="fas fa-users"></i>
+                        <span class="notification-badge" style="top: -8px; right: -10px;">5</span>
+                    </span>
+                    Usuarios
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'canjeadmin' %}">
+                    <i class="fas fa-exchange-alt"></i> Canjes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'retiroadmin' %}">
+                    <i class="fas fa-money-bill-wave"></i> Retiros
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'rutas' %}">
+                    <i class="fas fa-route"></i> Rutas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'estadisticasadmin' %}">
+                    <i class="fas fa-chart-line"></i> Estadísticas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'alertas' %}">
+                    <i class="fas fa-exclamation-triangle"></i> Alertas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'configuraciones' %}">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a class="nav-link text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutAdminModal">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </li>
+        </ul>
+    </div>
+>>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
     <!-- Main Content -->
     <div class="main-content">
@@ -628,6 +693,7 @@
             setInterval(fetchStats, 300000);
             setInterval(fetchPendingCanjes, 300000);
             setInterval(fetchPendingRedemptions, 300000);
+<<<<<<< HEAD
             
             // Funcionalidad del botón flotante con menú
             const floatBtn = document.getElementById('floatBtn');
@@ -662,6 +728,8 @@
                     isMenuOpen = false;
                 });
             });
+=======
+>>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
         });
     </script>
 
@@ -687,6 +755,7 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <!-- Floating Action Button -->
     <div class="float-plus-btn">
         <button class="btn btn-success rounded-circle" id="floatBtn" style="width: 60px; height: 60px; font-size: 24px;">
@@ -714,5 +783,7 @@
         </a>
     </div>
 
+=======
+>>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 </body>
 </html>

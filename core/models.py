@@ -1,7 +1,10 @@
 from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 from django.conf import settings
+<<<<<<< HEAD
 from django.utils import timezone
+=======
+>>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
 class Usuario(AbstractUser):
     ROLES = (
@@ -213,6 +216,7 @@ class Notificacion(models.Model):
     def __str__(self):
         return f"Notificación para {self.usuario.username}: {self.mensaje[:30]}..."
 
+<<<<<<< HEAD
 class SesionUsuario(models.Model):
     """Modelo para manejar sesiones seguras con validación de dispositivos"""
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='sesiones')
@@ -254,5 +258,33 @@ class IntentoAcceso(models.Model):
     
     def __str__(self):
         return f"Intento desde {self.ip_address} - {self.motivo}"
+=======
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True)
+    activa = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Categoría'
+        verbose_name_plural = 'Categorías'
+
+    def __str__(self):
+        return self.nombre
+
+class Logro(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=50)  # Ejemplo: 'nivel', 'canje', 'evento'
+    descripcion = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    puntos = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Logro'
+        verbose_name_plural = 'Logros'
+        ordering = ['-fecha_creacion']
+
+    def __str__(self):
+        return f'{self.usuario.username} - {self.descripcion}'
+>>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
 # Create your models here.
