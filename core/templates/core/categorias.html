@@ -1,0 +1,859 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorías | Eco Puntos</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    :root {
+      --primary: #4caf50;
+      --primary-dark: #388e3c;
+      --primary-light: #c8e6c9;
+      --accent: #8bc34a;
+      --text-dark: #263238;
+      --text-light: #f5f5f5;
+      --gray-light: #f9f9f9;
+      --gray: #e0e0e0;
+      --success: #66bb6a;
+      --info: #29b6f6;
+      --warning: #ffa726;
+      --gradient-1: linear-gradient(135deg, #43a047 0%, #7cb342 100%);
+      --gradient-2: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --hover-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      min-height: 100vh;
+      background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+                  url('{% static "core/img/nature-3294681_1920 (1) (1).jpg" %}') no-repeat center center fixed;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Asegurarse de que el overlay funcione correctamente */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) 100%);
+      backdrop-filter: blur(1px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    /* Header y navegación */
+    .header {
+      background: var(--gradient-1);
+      color: white;
+      padding: 15px 0;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      margin-right: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.1);
+    }
+    
+    .menu {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .menu a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .menu a:hover, .menu a.active {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .menu a i {
+      margin-right: 8px;
+    }
+    
+    /* Contenedor principal */
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 30px 15px;
+    }
+    
+    /* Encabezado de sección */
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+    
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-header h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-1);
+      border-radius: 4px;
+    }
+    
+    .section-header p {
+      color: #000000;
+      max-width: 800px;
+      margin: 15px auto 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    /* Tarjetas de categoría expandidas */
+    .categoria-expandida {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 40px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .categoria-expandida:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .categoria-header {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+    
+    .categoria-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .categoria-expandida:hover .categoria-header img {
+      transform: scale(1.1);
+    }
+    
+    .categoria-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .categoria-title {
+      color: white;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      margin: 0;
+    }
+    
+    .categoria-body {
+      padding: 30px;
+    }
+    
+    .categoria-info {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    
+    .info-item {
+      flex: 1;
+      min-width: 200px;
+      margin: 10px;
+      padding: 15px;
+      background: var(--gray-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .info-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--gradient-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    .info-content h4 {
+      margin: 0 0 5px 0;
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+    }
+    
+    .info-content p {
+      margin: 0;
+      color: #666;
+    }
+    
+    .categoria-description {
+      margin-bottom: 25px;
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    .categoria-tips {
+      background: var(--primary-light);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .categoria-tips h4 {
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .categoria-tips h4 i {
+      margin-right: 10px;
+    }
+    
+    .tips-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .tips-list li {
+      padding: 8px 0;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .tips-list li i {
+      color: var(--primary);
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+    
+    .categoria-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .puntos-info {
+      display: flex;
+      align-items: center;
+      background: var(--gradient-1);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+    
+    .puntos-info i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    
+    .btn-reciclar {
+      display: inline-block;
+      background: var(--gradient-2);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn-reciclar:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      color: white;
+    }
+    
+    /* Sección de estadísticas */
+    .stats-section {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-top: 60px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .stats-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .stats-header h3 {
+      color: var(--primary-dark);
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    
+    .stats-header p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    .stat-item {
+      flex: 1;
+      min-width: 200px;
+      max-width: 250px;
+      text-align: center;
+      padding: 30px 20px;
+      background: var(--gray-light);
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .stat-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--gradient-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: white;
+      font-size: 2rem;
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 1rem;
+    }
+    
+    /* Animaciones */
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+    
+    .slide-up {
+      animation: slideUp 0.8s ease forwards;
+    }
+    
+    .slide-right {
+      animation: slideRight 0.8s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes slideRight {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--text-dark);
+      color: var(--text-light);
+      padding: 40px 0 20px;
+      position: relative;
+      z-index: 10;
+      margin-top: 80px;
+    }
+    
+    .footer-title {
+      color: var(--primary-light);
+      font-weight: 600;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    
+    .footer-link {
+      color: var(--text-light);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .footer-link:hover {
+      color: var(--primary-light);
+      transform: translateX(5px);
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background: var(--primary);
+      transform: translateY(-5px);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu {
+        gap: 5px;
+      }
+      
+      .menu a {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      
+      .section-header h2 {
+        font-size: 2rem;
+      }
+      
+      .categoria-title {
+        font-size: 1.8rem;
+      }
+      
+      .categoria-body {
+        padding: 20px;
+      }
+      
+      .info-item {
+        min-width: 100%;
+      }
+      
+      .stat-item {
+        min-width: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+      <img class="logo" src="{% static 'core/img/eco.jpg' %}" alt="Logo Eco Puntos">
+      <h1>Eco Puntos</h1>
+    </div>
+    <nav class="menu">
+      <a href="{% url 'dashusuario' %}"><i class="fas fa-home"></i>Inicio</a>
+      <a href="{% url 'perfil' %}"><i class="fas fa-user"></i>Mi Perfil</a>
+      <a href="{% url 'categorias' %}" class="active"><i class="fas fa-recycle"></i>Categorías</a>
+      <a href="{% url 'pagos' %}"><i class="fas fa-credit-card me-2"></i>Pagos</a>
+      <a href="{% url 'canjes' %}"><i class="fas fa-exchange-alt"></i>Canjes</a>
+      <a href="{% url 'historial' %}"><i class="fas fa-history"></i>Historial</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Encabezado de la sección -->
+    <div class="section-header fade-in">
+      <h2>Categorías de Reciclaje</h2>
+      <p>Descubre cómo cada tipo de material puede transformarse en beneficios para ti y para el planeta. Conoce todo sobre cómo reciclar correctamente y contribuir al cuidado del medio ambiente.</p>
+    </div>
+    
+    <!-- Categoría Plásticos (Expandida) -->
+    <div class="categoria-expandida slide-up" style="animation-delay: 0.1s">
+      <div class="categoria-header">
+        <img src="{% static 'core/img/cateplastico.jpg' %}" alt="Plásticos">
+        <div class="categoria-overlay">
+          <h3 class="categoria-title">Plásticos</h3>
+        </div>
+      </div>
+      <div class="categoria-body">
+        <div class="categoria-info">
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-recycle"></i>
+            </div>
+            <div class="info-content">
+              <h4>Tipo de Material</h4>
+              <p>PET, HDPE, PVC, LDPE, PP, PS</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-weight"></i>
+            </div>
+            <div class="info-content">
+              <h4>Peso Mínimo</h4>
+              <p>500 gramos</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="info-content">
+              <h4>Tiempo de Degradación</h4>
+              <p>100-1000 años</p>
+            </div>
+          </div>
+        </div>
+        
+        <p class="categoria-description">
+          Los plásticos son materiales sintéticos fabricados a partir de polímeros derivados del petróleo. Son altamente versátiles pero también representan uno de los mayores problemas ambientales debido a su lenta degradación. Reciclar plásticos es fundamental para reducir la contaminación de océanos y suelos.
+        </p>
+        
+        <div class="categoria-tips">
+          <h4><i class="fas fa-lightbulb"></i> Consejos para reciclar plásticos</h4>
+          <ul class="tips-list">
+            <li><i class="fas fa-check-circle"></i> Lava y seca los envases antes de reciclarlos</li>
+            <li><i class="fas fa-check-circle"></i> Separa por tipo de plástico (busca el número en la base)</li>
+            <li><i class="fas fa-check-circle"></i> Retira tapas y etiquetas cuando sea posible</li>
+            <li><i class="fas fa-check-circle"></i> Aplasta las botellas para reducir su volumen</li>
+            <li><i class="fas fa-check-circle"></i> No incluyas plásticos muy sucios o con residuos tóxicos</li>
+          </ul>
+        </div>
+        
+        <div class="categoria-footer">
+          <div class="puntos-info">
+            <i class="fas fa-star"></i> 20 puntos por kilogramo
+          </div>
+          <a href="{% url 'canjes' %}" class="btn-reciclar">Reciclar Ahora</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Categoría Vidrio (Expandida) -->
+    <div class="categoria-expandida slide-up" style="animation-delay: 0.2s">
+      <div class="categoria-header">
+        <img src="{% static 'core/img/vidrio.jpg' %}" alt="Vidrio">
+        <div class="categoria-overlay">
+          <h3 class="categoria-title">Vidrio</h3>
+        </div>
+      </div>
+      <div class="categoria-body">
+        <div class="categoria-info">
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-wine-bottle"></i>
+            </div>
+            <div class="info-content">
+              <h4>Tipo de Material</h4>
+              <p>Botellas, frascos, envases</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-weight"></i>
+            </div>
+            <div class="info-content">
+              <h4>Peso Mínimo</h4>
+              <p>1 kilogramo</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-infinity"></i>
+            </div>
+            <div class="info-content">
+              <h4>Reciclabilidad</h4>
+              <p>100% reciclable infinitas veces</p>
+            </div>
+          </div>
+        </div>
+        
+        <p class="categoria-description">
+          El vidrio es un material inorgánico duro, frágil y transparente. A diferencia de otros materiales, el vidrio puede reciclarse infinitas veces sin perder calidad ni pureza. Reciclar vidrio ahorra energía, reduce la extracción de materias primas y disminuye las emisiones de CO2.
+        </p>
+        
+        <div class="categoria-tips">
+          <h4><i class="fas fa-lightbulb"></i> Consejos para reciclar vidrio</h4>
+          <ul class="tips-list">
+            <li><i class="fas fa-check-circle"></i> Enjuaga los envases para eliminar residuos</li>
+            <li><i class="fas fa-check-circle"></i> Retira tapas, corchos y elementos metálicos</li>
+            <li><i class="fas fa-check-circle"></i> No mezcles vidrio de ventanas o espejos (tienen composición diferente)</li>
+            <li><i class="fas fa-check-circle"></i> Manipula con cuidado para evitar cortes</li>
+            <li><i class="fas fa-check-circle"></i> No incluyas bombillas, cristales, cerámica o porcelana</li>
+          </ul>
+        </div>
+        
+        <div class="categoria-footer">
+          <div class="puntos-info">
+            <i class="fas fa-star"></i> 15 puntos por kilogramo
+          </div>
+          <a href="{% url 'canjes' %}" class="btn-reciclar">Reciclar Ahora</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Categoría Papel (Expandida) -->
+    <div class="categoria-expandida slide-up" style="animation-delay: 0.3s">
+      <div class="categoria-header">
+        <img src="{% static 'core/img/papel.jpg' %}" alt="Papel">
+        <div class="categoria-overlay">
+          <h3 class="categoria-title">Papel y Cartón</h3>
+        </div>
+      </div>
+      <div class="categoria-body">
+        <div class="categoria-info">
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-newspaper"></i>
+            </div>
+            <div class="info-content">
+              <h4>Tipo de Material</h4>
+              <p>Periódicos, revistas, cajas, papel de oficina</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-tree"></i>
+            </div>
+            <div class="info-content">
+              <h4>Impacto Ambiental</h4>
+              <p>Cada tonelada salva 17 árboles</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-tint-slash"></i>
+            </div>
+            <div class="info-content">
+              <h4>Ahorro de Agua</h4>
+              <p>Reduce el consumo en un 80%</p>
+            </div>
+          </div>
+        </div>
+        
+        <p class="categoria-description">
+          El papel y el cartón son materiales orgánicos fabricados a partir de la pulpa de madera. Reciclar estos materiales reduce significativamente la tala de árboles, ahorra agua y energía, y disminuye la cantidad de residuos en vertederos. El papel puede reciclarse entre 5-7 veces antes de que las fibras se vuelvan demasiado cortas.
+        </p>
+        
+        <div class="categoria-tips">
+          <h4><i class="fas fa-lightbulb"></i> Consejos para reciclar papel</h4>
+          <ul class="tips-list">
+            <li><i class="fas fa-check-circle"></i> Mantén el papel seco y limpio</li>
+            <li><i class="fas fa-check-circle"></i> Retira grapas, clips y elementos plásticos</li>
+            <li><i class="fas fa-check-circle"></i> Aplana las cajas de cartón para ahorrar espacio</li>
+            <li><i class="fas fa-check-circle"></i> Separa el papel por tipos cuando sea posible</li>
+            <li><i class="fas fa-check-circle"></i> No incluyas papel térmico, encerado o con residuos de alimentos</li>
+          </ul>
+        </div>
+        
+        <div class="categoria-footer">
+          <div class="puntos-info">
+            <i class="fas fa-star"></i> 10 puntos por kilogramo
+          </div>
+          <a href="{% url 'canjes' %}" class="btn-reciclar">Reciclar Ahora</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Categoría Metales (Expandida) -->
+    <div class="categoria-expandida slide-up" style="animation-delay: 0.4s">
+      <div class="categoria-header">
+        <img src="{% static 'core/img/metal.jpg' %}" alt="Metales">
+        <div class="categoria-overlay">
+          <h3 class="categoria-title">Metales</h3>
+        </div>
+      </div>
+      <div class="categoria-body">
+        <div class="categoria-info">
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-cog"></i>
+            </div>
+            <div class="info-content">
+              <h4>Tipo de Material</h4>
+              <p>Aluminio, acero, cobre, latón</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <div class="info-content">
+              <h4>Ahorro Energético</h4>
+              <p>Hasta un 95% con aluminio</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <i class="fas fa-infinity"></i>
+            </div>
+            <div class="info-content">
+              <h4>Reciclabilidad</h4>
+              <p>100% reciclable indefinidamente</p>
+            </div>
+          </div>
+        </div>
+        
+        <p class="categoria-description">
+          Los metales son materiales con alta conductividad eléctrica y térmica que pueden ser reciclados indefinidamente sin perder sus propiedades. El reciclaje de metales reduce significativamente la minería, ahorra energía y disminuye las emisiones de gases de efecto invernadero. El aluminio, por ejemplo, puede reciclarse usando solo el 5% de la energía necesaria para producirlo desde cero.
+        </p>
+        
+        <div class="categoria-tips">
+          <h4><i class="fas fa-lightbulb"></i> Consejos para reciclar metales</h4>
+          <ul class="tips-list">
+            <li><i class="fas fa-check-circle"></i> Limpia los envases de metal antes de reciclar</li>
+            <li><i class="fas fa-check-circle"></i> Separa el aluminio del acero</li>
+            <li><i class="fas fa-check-circle"></i> Aplana latas y envases para ahorrar espacio</li>
+            <li><i class="fas fa-check-circle"></i> No incluyas metales oxidados o contaminados</li>
+            <li><i class="fas fa-check-circle"></i> Consulta las normativas locales para reciclaje de metales</li>
+          </ul>
+        </div>
+        <div class="categoria-footer">
+          <div class="puntos-info">
+            <i class="fas fa-star"></i> 25 puntos por kilogramo
+          </div>
+          <a href="{% url 'canjes' %}" class="btn-reciclar">Reciclar Ahora</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <h2 class="footer-title">Eco Puntos</h2>
+      <p>Contribuye al cuidado del medio ambiente y gana recompensas por reciclar. Juntos podemos hacer la diferencia.</p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <div class="footer-bottom">
+        © 2025 Eco Puntos | Diseñado con propósito sostenible
+      </div>
+    </div>
+  </footer>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <!-- Animate.css -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.js"></script>
+</body>
+</html>

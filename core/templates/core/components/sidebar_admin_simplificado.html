@@ -1,0 +1,277 @@
+<!-- Sidebar Admin Simplificado -->
+<div class="admin-sidebar">
+    <div class="sidebar-header">
+        {% load static %}
+        <img src="{% static 'core/img/eco.jpg' %}" alt="Admin Logo" class="admin-logo">
+        <h5 class="mb-0">Panel Administrativo</h5>
+        <small class="text-muted">Eco Puntos</small>
+    </div>
+    
+    <ul class="nav flex-column mt-4">
+        <!-- 📊 DASHBOARD -->
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'paneladmin' %}">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </a>
+        </li>
+        
+        <!-- 👥 GESTIÓN USUARIOS -->
+        <li class="nav-item dropdown-menu-item">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#usuariosSubmenu" aria-expanded="false">
+                <i class="fas fa-users"></i> 
+                <span>Gestión Usuarios</span>
+                <span class="notification-badge" style="top: -8px; right: -10px;">5</span>
+                <i class="fas fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="usuariosSubmenu">
+                <ul class="submenu list-unstyled">
+                    <li><a class="nav-link submenu-link" href="{% url 'usuarioadmin' %}"><i class="fas fa-list"></i> Lista de Usuarios</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'security_monitor' %}"><i class="fas fa-shield-alt"></i> Monitor Seguridad</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'cleanup_expired_sessions' %}"><i class="fas fa-broom"></i> Limpiar Sesiones</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- 🔄 OPERACIONES -->
+        <li class="nav-item dropdown-menu-item">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#operacionesSubmenu" aria-expanded="false">
+                <i class="fas fa-cogs"></i> 
+                <span>Operaciones</span>
+                <i class="fas fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="operacionesSubmenu">
+                <ul class="submenu list-unstyled">
+                    <li><a class="nav-link submenu-link" href="{% url 'canjeadmin' %}"><i class="fas fa-exchange-alt"></i> Gestión Canjes</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'retiroadmin' %}"><i class="fas fa-money-bill-wave"></i> Procesar Retiros</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'get_pending_redemptions' %}"><i class="fas fa-clock"></i> Pendientes</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- 🗺️ LOGÍSTICA -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'rutas' %}">
+                <i class="fas fa-route"></i> Logística
+            </a>
+        </li>
+        
+        <!-- ⚙️ SISTEMA -->
+        <li class="nav-item dropdown-menu-item">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#sistemaSubmenu" aria-expanded="false">
+                <i class="fas fa-server"></i> 
+                <span>Sistema</span>
+                <i class="fas fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="sistemaSubmenu">
+                <ul class="submenu list-unstyled">
+                    <li><a class="nav-link submenu-link" href="{% url 'configuraciones' %}"><i class="fas fa-cog"></i> Configuraciones</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'alertas' %}"><i class="fas fa-exclamation-triangle"></i> Alertas</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'estadisticasadmin' %}"><i class="fas fa-chart-line"></i> Estadísticas</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'get_advanced_statistics' %}"><i class="fas fa-analytics"></i> Estadísticas Avanzadas</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'export_statistics' %}"><i class="fas fa-download"></i> Exportar Datos</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- 🚪 CERRAR SESIÓN -->
+        <li class="nav-item mt-auto">
+            <a class="nav-link text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutAdminModal">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+        </li>
+    </ul>
+</div>
+
+<style>
+/* Estilos para el menú admin simplificado */
+.admin-sidebar .nav {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px 0;
+}
+
+.admin-sidebar .nav-item {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 5px !important;
+    padding: 0 !important;
+    border-left: none !important;
+}
+
+.admin-sidebar .nav-link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 20px !important;
+    color: #6c757d !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+}
+
+.admin-sidebar .nav-link:hover {
+    background-color: rgba(46, 204, 113, 0.1) !important;
+    color: var(--primary-color) !important;
+    border-left: 4px solid var(--primary-color, #2ecc71) !important;
+}
+
+.admin-sidebar .dropdown-menu-item .nav-link {
+    justify-content: space-between !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+
+.admin-sidebar .dropdown-menu-item .nav-link:hover {
+    background-color: rgba(46, 204, 113, 0.1) !important;
+    border-radius: 0 !important;
+}
+
+.admin-sidebar .submenu {
+    display: flex !important;
+    flex-direction: column !important;
+    padding-left: 20px !important;
+    margin-top: 5px !important;
+    width: 100% !important;
+}
+
+.admin-sidebar .submenu li {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 2px !important;
+}
+
+.admin-sidebar .submenu-link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 15px !important;
+    font-size: 0.9rem !important;
+    color: #6c757d !important;
+    border-radius: 6px !important;
+    margin: 2px 0 !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    width: 100% !important;
+}
+
+.admin-sidebar .submenu-link:hover {
+    background-color: rgba(46, 204, 113, 0.15) !important;
+    color: var(--primary-color) !important;
+    transform: translateX(5px) !important;
+}
+
+.admin-sidebar .submenu-link i {
+    width: 16px !important;
+    margin-right: 8px !important;
+    font-size: 0.8rem !important;
+}
+
+.admin-sidebar .nav-link i {
+    margin-right: 15px !important;
+    font-size: 1.2rem !important;
+    width: 20px !important;
+    text-align: center !important;
+}
+
+.admin-sidebar .dropdown-toggle::after {
+    display: none !important;
+}
+
+.admin-sidebar .fa-chevron-down {
+    transition: transform 0.3s ease !important;
+    font-size: 0.8rem !important;
+}
+
+.admin-sidebar .dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg) !important;
+}
+
+/* Notificaciones mejoradas */
+.admin-sidebar .notification-badge {
+    position: absolute !important;
+    top: -5px !important;
+    right: 25px !important;
+    background: var(--danger-color) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: pulse 2s infinite !important;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+/* Animaciones suaves */
+.admin-sidebar .collapse {
+    transition: all 0.3s ease !important;
+}
+
+/* Indicador visual para secciones activas */
+.admin-sidebar .nav-link.active {
+    background-color: rgba(46, 204, 113, 0.2) !important;
+    border-left: 4px solid var(--primary-color, #2ecc71) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Separadores visuales */
+.admin-sidebar .nav-item:nth-child(4)::after {
+    content: '' !important;
+    display: block !important;
+    height: 1px !important;
+    background: rgba(0,0,0,0.1) !important;
+    margin: 10px 15px !important;
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+    .admin-sidebar .submenu {
+        padding-left: 15px !important;
+    }
+    
+    .admin-sidebar .submenu-link {
+        padding: 6px 10px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .admin-sidebar .notification-badge {
+        right: 20px !important;
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 9px !important;
+    }
+}
+
+/* Tooltips para mejor UX */
+.admin-sidebar .nav-link[title] {
+    position: relative !important;
+}
+
+.admin-sidebar .nav-link[title]:hover::after {
+    content: attr(title) !important;
+    position: absolute !important;
+    left: 100% !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: rgba(0,0,0,0.8) !important;
+    color: white !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important;
+    font-size: 0.8rem !important;
+    white-space: nowrap !important;
+    z-index: 1000 !important;
+    margin-left: 10px !important;
+}
+</style>

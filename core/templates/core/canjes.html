@@ -1,0 +1,665 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canjes | Eco Puntos</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- Toastr CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <!-- Custom CSS from iniciosesionperfil.css (used by dashusuario.html) -->
+  <link rel="stylesheet" href="{% static 'core/css/iniciosesionperfil.css' %}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <style>
+        :root {
+            --primary: #4caf50;
+            --primary-dark: #388e3c;
+            --primary-light: #c8e6c9;
+            --accent: #8bc34a;
+            --text-dark: #263238;
+            --text-light: #f5f5f5;
+            --gray-light: #f9f9f9;
+            --gray: #e0e0e0;
+            --success: #66bb6a;
+            --info: #29b6f6;
+            --warning: #ffa726;
+            --gradient-1: linear-gradient(135deg, #43a047 0%, #7cb342 100%);
+            --gradient-2: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --hover-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+    
+    * {
+            margin: 0;
+            padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      min-height: 100vh;
+      background: url('{% static "core/img/nature-3294681_1920 (1) (1).jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+            position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Asegurarse de que el overlay funcione correctamente */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) 100%);
+      backdrop-filter: blur(1px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    /* Header y navegación */
+        .header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 15px 0;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+    
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+    
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+    
+    .logo:hover {
+      transform: scale(1.1);
+    }
+    
+        .menu {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+    
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background: rgba(255,255,255,0.1);
+        }
+    
+    .menu a:hover, .menu a.active {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    
+    .menu a i {
+      margin-right: 8px;
+    }
+    
+    /* Contenedor principal */
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 30px 15px;
+        }
+    
+    /* Encabezado de sección */
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+        }
+    
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+        }
+    
+    .section-header h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-1);
+      border-radius: 4px;
+    }
+    
+    .section-header p {
+      color: #555;
+      max-width: 800px;
+      margin: 15px auto 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    /* Tarjetas de categoría expandidas - Styles for canjes page */
+    .card-canje {
+      background: white;
+      border-radius: 20px;
+            overflow: hidden;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 40px;
+      padding: 30px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .btn-primary {
+      background: var(--gradient-2);
+            border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+            font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      background: var(--gradient-1);
+        }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: var(--gray-light);
+        }
+
+    .table th {
+      background-color: var(--primary-dark);
+      color: white;
+      border-bottom: none;
+      padding: 12px 15px;
+        }
+
+    .table td {
+      padding: 12px 15px;
+      vertical-align: middle;
+        }
+
+    .btn-success {
+      background-color: var(--success);
+      border-color: var(--success);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      padding: 5px 15px;
+    }
+
+    .btn-success:hover {
+      background-color: #5cb85c;
+      border-color: #5cb85c;
+        }
+
+    /* Animaciones */
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+    
+    .slide-up {
+      animation: slideUp 0.8s ease forwards;
+    }
+    
+    .slide-right {
+      animation: slideRight 0.8s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes slideRight {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--text-dark);
+      color: var(--text-light);
+      padding: 40px 0 20px;
+      position: relative;
+      z-index: 10;
+      margin-top: 80px;
+    }
+    
+    .footer-title {
+      color: var(--primary-light);
+      font-weight: 600;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+        }
+    
+    .footer-link {
+      color: var(--text-light);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+        }
+    
+    .footer-link:hover {
+      color: var(--primary-light);
+      transform: translateX(5px);
+        }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .social-links {
+            display: flex;
+      gap: 15px;
+      margin-top: 20px;
+        }
+    
+    .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+    
+    .social-link:hover {
+            background: var(--primary);
+      transform: translateY(-5px);
+        }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu {
+        gap: 5px;
+      }
+      
+      .menu a {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        }
+      
+      .section-header h2 {
+        font-size: 2rem;
+        }
+      
+      .card-canje {
+            padding: 20px;
+        }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <img class="logo" src="{% static 'core/img/eco.jpg' %}" alt="Logo Eco Puntos">
+            <h1>Eco Puntos</h1>
+        </div>
+        <nav class="menu">
+            <a href="{% url 'dashusuario' %}"><i class="fas fa-home"></i>Inicio</a>
+            <a href="{% url 'perfil' %}"><i class="fas fa-user"></i>Mi Perfil</a>
+            <a href="{% url 'categorias' %}"><i class="fas fa-recycle"></i>Categorías</a>
+            <a href="{% url 'pagos' %}"><i class="fas fa-credit-card me-2"></i>Pagos</a>
+            <a href="{% url 'solicitar_canje' %}" class="active"><i class="fas fa-exchange-alt"></i>Canjes</a>
+            <a href="{% url 'historial' %}"><i class="fas fa-history"></i>Historial</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Encabezado de la sección -->
+        <div class="section-header fade-in">
+            <h2>Solicitar Canje</h2>
+            <p>Envía tus materiales reciclables y acumula puntos. Revisa el estado de tus solicitudes.</p>
+                </div>
+        
+        <div class="card-canje animate__animated animate__fadeInUp">
+            <h3 class="text-center mb-4" style="color: var(--primary-dark); font-weight: 700;">Nuevo Canje</h3>
+            <form id="solicitarCanjeForm">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="material" class="form-label">Material a Reciclaje:</label>
+                    <select class="form-select" id="material" name="material" required>
+                        <option value="">Seleccionar un material</option>
+                        {% for material in materials %}
+                            <option value="{{ material.id }}" data-puntos-kilo="{{ material.puntos_por_kilo }}">{{ material.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Simulación de balanza -->
+                <div class="mb-4">
+                    <label class="form-label">Simulación de Balanza:</label>
+                    <div class="balanza-container" style="background: rgba(255,255,255,0.8); border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center;">
+                        <div class="balanza-display mb-3" style="font-size: 2.5rem; font-weight: 700; color: var(--primary-dark); font-family: 'Digital', monospace;">
+                            <span id="pesoDisplay">0.0</span> kg
+                        </div>
+                        <div class="balanza-controls">
+                            <input type="range" class="form-range mb-3" id="pesoSimulado" min="0.1" max="50" step="0.1" value="0.1">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="decrementarPeso">-0.1 kg</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="incrementarPeso">+0.1 kg</button>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-success" id="confirmarPeso">Confirmar Peso</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="cantidad" class="form-label">Peso Confirmado (kg):</label>
+                    <input type="number" class="form-control" id="cantidad" name="peso" min="0.1" step="0.1" placeholder="Peso confirmado" readonly required>
+                </div>
+                <div class="mb-3">
+                    <label for="puntosEstimados" class="form-label">Puntos Estimados:</label>
+                    <input type="text" class="form-control" id="puntosEstimados" readonly value="0">
+                </div>
+                
+                <!-- Estado de verificación -->
+                <div class="mb-3 verification-status" style="display: none;">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-clock me-2"></i> <strong>En verificación:</strong> El peso y los puntos serán verificados por un administrador. Recibirás tus puntos una vez aprobado el canje.
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">Solicitar Canje</button>
+            </form>
+        </div>
+
+        <div class="card-canje animate__animated animate__fadeInUp">
+            <h3 class="text-center mb-4" style="color: var(--primary-dark); font-weight: 700;">Canjes Pendientes y Aprobados</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                            <th>Cantidad</th>
+                            <th>Puntos Otorgados</th>
+                        <th>Estado</th>
+                            <th>Fecha de Solicitud</th>
+                            <th>Acciones</th>
+                    </tr>
+                </thead>
+                    <tbody id="canjesTableBody">
+                        <!-- Canjes will be loaded here via AJAX -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="footer-title">Eco Puntos</h5>
+                    <p>Comprometidos con el medio ambiente y el fomento del reciclaje. ¡Únete a nuestra comunidad!</p>
+            </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="footer-title">Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'dashusuario' %}" class="footer-link">Inicio</a></li>
+                        <li><a href="{% url 'perfil' %}" class="footer-link">Mi Perfil</a></li>
+                        <li><a href="{% url 'categorias' %}" class="footer-link">Categorías</a></li>
+                        <li><a href="{% url 'solicitar_canje' %}" class="footer-link">Canjes</a></li>
+                        <li><a href="{% url 'historial' %}" class="footer-link">Historial</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="footer-title">Contacto</h5>
+                    <p>Email: info@ecopuntos.com</p>
+                    <p>Teléfono: +123 456 7890</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2023 Eco Puntos. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to load canjes (from previous interactions, if applicable)
+            function loadCanjes() {
+                $.ajax({
+                    url: "{% url 'get_pending_canjes' %}", // This URL should exist in your urls.py
+                    type: "GET",
+                    success: function(response) {
+                        const canjesTableBody = $('#canjesTableBody');
+                        canjesTableBody.empty();
+                        if (response.canjes && response.canjes.length > 0) {
+                            response.canjes.forEach(function(canje) {
+                                let estadoText = canje.estado;
+                                let estadoClass = '';
+                                
+                                if (canje.estado === 'Pendiente') {
+                                    estadoText = 'En verificación';
+                                    estadoClass = 'text-warning';
+                                } else if (canje.estado === 'Aprobado') {
+                                    estadoClass = 'text-success';
+                                } else if (canje.estado === 'Rechazado') {
+                                    estadoClass = 'text-danger';
+                                }
+                                
+                                canjesTableBody.append(`
+                                    <tr>
+                                        <td>${canje.material_nombre}</td>
+                                        <td>${canje.peso} kg</td>
+                                        <td>${canje.puntos}</td>
+                                        <td><span class="${estadoClass}">${estadoText}</span></td>
+                                        <td>${new Date(canje.fecha_solicitud).toLocaleDateString()}</td>
+                                        <td></td>
+                                    </tr>
+                                `);
+                            });
+                        } else {
+                            canjesTableBody.append('<tr><td colspan="6" class="text-center">No hay canjes pendientes o aprobados.</td></tr>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error("Error al cargar los canjes: " + xhr.responseText);
+                    }
+                });
+            }
+
+            // Initial load of canjes
+            loadCanjes();
+
+            // Simulación de balanza
+            const pesoSimulado = $('#pesoSimulado');
+            const pesoDisplay = $('#pesoDisplay');
+            const cantidadInput = $('#cantidad');
+            const decrementarBtn = $('#decrementarPeso');
+            const incrementarBtn = $('#incrementarPeso');
+            const confirmarBtn = $('#confirmarPeso');
+            const verificationStatus = $('.verification-status');
+
+            // Actualizar display cuando se mueve el slider
+            pesoSimulado.on('input', function() {
+                const peso = parseFloat($(this).val()).toFixed(1);
+                pesoDisplay.text(peso);
+            });
+
+            // Botones para incrementar/decrementar
+            decrementarBtn.on('click', function() {
+                let peso = parseFloat(pesoSimulado.val());
+                if (peso > 0.1) {
+                    peso = (peso - 0.1).toFixed(1);
+                    pesoSimulado.val(peso);
+                    pesoDisplay.text(peso);
+                }
+            });
+
+            incrementarBtn.on('click', function() {
+                let peso = parseFloat(pesoSimulado.val());
+                peso = (peso + 0.1).toFixed(1);
+                pesoSimulado.val(peso);
+                pesoDisplay.text(peso);
+            });
+
+            // Confirmar peso
+            confirmarBtn.on('click', function() {
+                const peso = parseFloat(pesoSimulado.val()).toFixed(1);
+                cantidadInput.val(peso);
+                
+                // Mostrar mensaje de verificación
+                verificationStatus.slideDown();
+                
+                toastr.success(`Peso confirmado: ${peso} kg`);
+                
+                // Calcular puntos estimados
+                const materialSelect = $('#material');
+                const puntosEstimadosInput = $('#puntosEstimados');
+                const selectedOption = materialSelect.find('option:selected');
+                const puntosPorKilo = parseFloat(selectedOption.data('puntos-kilo'));
+                
+                if (selectedOption.val() && !isNaN(puntosPorKilo) && !isNaN(peso) && peso > 0) {
+                    const puntos = (puntosPorKilo * peso).toFixed(2);
+                    puntosEstimadosInput.val(puntos);
+                }
+            });
+
+            // Dynamic points calculation when material changes
+            $('#material').on('change', function() {
+                const peso = parseFloat(cantidadInput.val());
+                const selectedOption = $(this).find('option:selected');
+                const puntosPorKilo = parseFloat(selectedOption.data('puntos-kilo'));
+                
+                if (selectedOption.val() && !isNaN(puntosPorKilo) && !isNaN(peso) && peso > 0) {
+                    const puntos = (puntosPorKilo * peso).toFixed(2);
+                    $('#puntosEstimados').val(puntos);
+                } else {
+                    $('#puntosEstimados').val('0');
+                }
+            });
+
+            // Handle form submission for new canje
+            $('#solicitarCanjeForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Validar que se haya confirmado un peso
+                if (!cantidadInput.val() || parseFloat(cantidadInput.val()) <= 0) {
+                    toastr.error("Debes confirmar un peso válido usando la balanza");
+                    return;
+                }
+                
+                const formData = $(this).serialize(); // Get form data
+
+                $.ajax({
+                    url: "{% url 'solicitar_canje' %}", // Ensure this URL name matches your urls.py
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            
+                            // Mostrar mensaje de verificación más prominente
+                            Swal.fire({
+                                title: '¡Canje Solicitado!',
+                                text: 'Tu solicitud ha sido enviada y está en proceso de verificación por un administrador. Recibirás tus puntos una vez sea aprobada.',
+                                icon: 'info',
+                                confirmButtonText: 'Entendido'
+                            });
+                            
+                            $('#solicitarCanjeForm')[0].reset(); // Reset form
+                            $('#puntosEstimados').val('0'); // Reset estimated points
+                            pesoDisplay.text('0.0'); // Reset balanza display
+                            pesoSimulado.val(0.1); // Reset balanza slider
+                            cantidadInput.val(''); // Reset cantidad input
+                            verificationStatus.slideUp(); // Ocultar mensaje de verificación
+                            loadCanjes(); // Reload canjes table
+                        } else {
+                            toastr.error(response.message || "Error al solicitar canje.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error("Error en la solicitud: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+<!-- Antes de cerrar el body -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+</body>
+</html>
+
+

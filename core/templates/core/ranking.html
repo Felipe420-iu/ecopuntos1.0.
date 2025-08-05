@@ -1,0 +1,426 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de Reciclaje - Eco Champions</title>
+    <link rel="stylesheet" href="{% static 'core/css/ranking.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="navbar">
+                <div class="navbar-logo-title">
+                    <div class="navbar-logo">
+                        <div class="navbar-logo">
+                            <img src="{% static 'core/img/eco.jpg' %}" alt="Eco Puntos Logo" />
+                        </div>
+                    </div>
+                    <span class="navbar-title">Eco Puntos</span>
+                </div>
+                <nav class="navbar-menu">
+                    <a href="dashusuario.html" class="navbar-btn"><i class="fas fa-home"></i> INICIO</a>
+                    <a href="perfil.html" class="navbar-btn"><i class="fas fa-user"></i> MI PERFIL</a>
+                    <a href="categorias.html" class="navbar-btn"><i class="fas fa-tags"></i> CATEGORÍAS</a>
+                    <a href="pagos.html" class="navbar-btn"><i class="fas fa-credit-card"></i> PAGOS</a>
+                    <a href="canjes.html" class="navbar-btn"><i class="fas fa-exchange-alt"></i> CANJES</a>
+                    <a href="historial.html" class="navbar-btn"><i class="fas fa-history"></i> HISTORIAL</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Participantes</h3>
+                        <p class="stat-number">1,247</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Reciclado</h3>
+                        <p class="stat-number">15.2 ton</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Este Mes</h3>
+                        <p class="stat-number">2.8 ton</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Líder Actual</h3>
+                        <p class="stat-number">María García</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top 10 Ranking -->
+            <section class="ranking-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-medal"></i> Top 10 Recicladores</h2>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-period="month">Este Mes</button>
+                        <button class="filter-btn" data-period="week">Esta Semana</button>
+                    </div>
+                </div>
+                
+                <div class="ranking-list">
+                    <div class="ranking-item top-1">
+                        <div class="rank-number">1</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>María García</h3>
+                                <p>Eco Warrior</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">245 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="trophy">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item top-2">
+                        <div class="rank-number">2</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Carlos López</h3>
+                                <p>Green Master</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">198 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="trophy">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item top-3">
+                        <div class="rank-number">3</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Ana Rodríguez</h3>
+                                <p>Eco Hero</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">175 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 71%"></div>
+                            </div>
+                        </div>
+                        <div class="trophy">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-number">4</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Luis Martínez</h3>
+                                <p>Recycler Pro</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">156 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 64%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-number">5</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Sofia Pérez</h3>
+                                <p>Green Champion</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">142 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 58%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-number">6</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Diego Silva</h3>
+                                <p>Eco Fighter</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">128 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 52%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-number">7</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Valentina Torres</h3>
+                                <p>Recycle Queen</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">115 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 47%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-number">8</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Roberto Vega</h3>
+                                <p>Green Warrior</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">98 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 40%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-number">9</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Camila Ruiz</h3>
+                                <p>Eco Master</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">87 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 35%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ranking-item">
+                        <div class="rank-number">10</div>
+                        <div class="user-info">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3>Andrés Morales</h3>
+                                <p>Recycle King</p>
+                            </div>
+                        </div>
+                        <div class="recycling-stats">
+                            <div class="stat">
+                                <span class="label">Reciclado:</span>
+                                <span class="value">76 kg</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 31%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-line"></i> Reciclaje Mensual</h3>
+                            <p>Evolución del reciclaje en los últimos 6 meses</p>
+                        </div>
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-bar"></i> Reciclaje Semanal</h3>
+                            <p>Actividad de reciclaje por semana</p>
+                        </div>
+                        <canvas id="weeklyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tags"></i> Categorías de Reciclaje</h2>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-wine-bottle"></i>
+                        </div>
+                        <h3>Plástico</h3>
+                        <p class="category-amount">8.5 ton</p>
+                        <div class="category-progress">
+                            <div class="progress" style="width: 56%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h3>Papel</h3>
+                        <p class="category-amount">4.2 ton</p>
+                        <div class="category-progress">
+                            <div class="progress" style="width: 28%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3>Vidrio</h3>
+                        <p class="category-amount">2.1 ton</p>
+                        <div class="category-progress">
+                            <div class="progress" style="width: 14%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h3>Otros</h3>
+                        <p class="category-amount">0.4 ton</p>
+                        <div class="category-progress">
+                            <div class="progress" style="width: 2%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ECOPUNTOS</h3>
+                    <p>Haciendo del mundo un lugar más verde, un reciclaje a la vez.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-envelope"></i> info@ecopuntos.com</p>
+                    <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ECOPUNTOS. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

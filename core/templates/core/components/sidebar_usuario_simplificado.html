@@ -1,0 +1,229 @@
+<!-- Sidebar Usuario Simplificado -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        {% load static %}
+        {% if user.foto_perfil %}
+            <img src="{{ user.foto_perfil.url }}" alt="Foto de Perfil" class="sidebar-logo">
+        {% else %}
+            <img src="{% static 'core/img/ecop.jpg' %}" alt="Foto de Perfil" class="sidebar-logo">
+        {% endif %}
+        <h1 class="sidebar-title">Eco Puntos</h1>
+    </div>
+    
+    <div class="user-info">
+        <p class="user-name">{{ user.username }}</p>
+        <span class="user-level">{{ current_level }}</span>
+        <p class="mb-1">{{ user.puntos }}/{{ next_level_points }} puntos para el siguiente nivel</p>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{ progress_percentage }}%;" aria-valuenow="{{ user.puntos }}" aria-valuemin="{{ progress_from }}" aria-valuemax="{{ next_level_points }}"></div>
+        </div>
+        <small>{{ user.puntos }} Puntos</small>
+    </div>
+    
+    <ul class="nav-menu list-unstyled">
+        <!-- 🏠 INICIO -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashusuario' %}">
+                <i class="fas fa-home"></i> <span>Inicio</span>
+            </a>
+        </li>
+        
+        <!-- 👤 MI CUENTA -->
+        <li class="nav-item dropdown-menu-item">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#cuentaSubmenu" aria-expanded="false">
+                <i class="fas fa-user"></i> <span>Mi Cuenta</span>
+                <i class="fas fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="cuentaSubmenu">
+                <ul class="submenu list-unstyled">
+                    <li><a class="nav-link submenu-link" href="{% url 'perfil' %}"><i class="fas fa-id-card"></i> Perfil</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'configuracion' %}"><i class="fas fa-cog"></i> Configuración</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- ♻️ RECICLAJE -->
+        <li class="nav-item dropdown-menu-item">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#reciclajeSubmenu" aria-expanded="false">
+                <i class="fas fa-recycle"></i> <span>Reciclaje</span>
+                <i class="fas fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="reciclajeSubmenu">
+                <ul class="submenu list-unstyled">
+                    <li><a class="nav-link submenu-link" href="{% url 'categorias' %}"><i class="fas fa-boxes"></i> Categorías</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'solicitar_canje' %}"><i class="fas fa-exchange-alt"></i> Solicitar Canje</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'rutasusuario' %}"><i class="fas fa-route"></i> Rutas</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- 💰 MIS PUNTOS -->
+        <li class="nav-item dropdown-menu-item">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#puntosSubmenu" aria-expanded="false">
+                <i class="fas fa-coins"></i> <span>Mis Puntos</span>
+                <i class="fas fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="puntosSubmenu">
+                <ul class="submenu list-unstyled">
+                    <li><a class="nav-link submenu-link" href="{% url 'historial' %}"><i class="fas fa-history"></i> Historial</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'recompensas' %}"><i class="fas fa-gift"></i> Recompensas</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'pagos' %}"><i class="fas fa-money-bill-wave"></i> Retiros</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- 🏆 PROGRESO -->
+        <li class="nav-item dropdown-menu-item">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#progresoSubmenu" aria-expanded="false">
+                <i class="fas fa-trophy"></i> <span>Progreso</span>
+                <i class="fas fa-chevron-down ms-auto"></i>
+            </a>
+            <div class="collapse" id="progresoSubmenu">
+                <ul class="submenu list-unstyled">
+                    <li><a class="nav-link submenu-link" href="{% url 'logros' %}"><i class="fas fa-medal"></i> Logros</a></li>
+                    <li><a class="nav-link submenu-link" href="{% url 'ranking' %}"><i class="fas fa-chart-line"></i> Ranking</a></li>
+                </ul>
+            </div>
+        </li>
+        
+        <!-- 📞 AYUDA -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'soportusu' %}">
+                <i class="fas fa-headset"></i> <span>Ayuda</span>
+            </a>
+        </li>
+        
+        <!-- 🚪 CERRAR SESIÓN -->
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="background-color: #dc3545; border-radius: 8px; margin-top: 20px;">
+                <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<style>
+/* Estilos para el menú simplificado */
+.nav-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px 0;
+}
+
+.nav-item {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 5px !important;
+    padding: 0 !important;
+    border-left: none !important;
+}
+
+.nav-link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 20px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border-left: 4px solid var(--accent, #8bc34a) !important;
+}
+
+.dropdown-menu-item .nav-link {
+    justify-content: space-between !important;
+    cursor: pointer !important;
+}
+
+.dropdown-menu-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 0 !important;
+}
+
+.submenu {
+    display: flex !important;
+    flex-direction: column !important;
+    padding-left: 20px !important;
+    margin-top: 5px !important;
+    width: 100% !important;
+}
+
+.submenu li {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 2px !important;
+}
+
+.submenu-link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 15px !important;
+    font-size: 0.9rem !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 6px !important;
+    margin: 2px 0 !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    width: 100% !important;
+}
+
+.submenu-link:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    transform: translateX(5px) !important;
+}
+
+.submenu-link i {
+    width: 16px !important;
+    margin-right: 8px !important;
+    font-size: 0.8rem !important;
+}
+
+.nav-link i {
+    margin-right: 15px !important;
+    font-size: 1.2rem !important;
+    width: 20px !important;
+    text-align: center !important;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.fa-chevron-down {
+    transition: transform 0.3s ease !important;
+    font-size: 0.8rem !important;
+}
+
+.dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg) !important;
+}
+
+/* Animaciones suaves */
+.collapse {
+    transition: all 0.3s ease !important;
+}
+
+/* Indicador visual para secciones activas */
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-left: 4px solid var(--accent, #8bc34a) !important;
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+    .submenu {
+        padding-left: 15px !important;
+    }
+    
+    .submenu-link {
+        padding: 6px 10px !important;
+        font-size: 0.85rem !important;
+    }
+}
+</style>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil | Eco Puntos</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link rel="stylesheet" href="./css/perfil.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo-container text-center">
+      <img class="logo" src="./img/eco.jpg" alt="Logo Eco Puntos">
+      <h1>Eco Puntos</h1>
+    </div>
+    <nav class="menu text-center">
+      <a href="./iniciosesionperfil.html">Inicio</a>
+      <a href="./perfil.html">Mi Perfil</a>
+      <a href="./categorias.html">categorias</a>
+      <a href="#cambio-contrasena">Cerrar Sesión</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <!-- Información del Usuario -->
+    <section id="perfil" class="text-center">
+      <h2 style="color: #4caf50;"> Sr Pepito Perez </h2>
+      <p>Gracias por ser parte de nuestra misión de reciclaje. Aquí puedes gestionar tus puntos y revisar tu información personal.</p>
+      <img src="./img/569465-whatsapp-que-tus-contactos-ponen-rana-perfil.webp" alt="Foto de Perfil" class="img-fluid rounded-circle" style="max-width: 150px; margin: 20px 0;">
+      <h4 style="color: #388e3c;">Puntos acumulados: <strong>350</strong></h4>
+      <button class="btn btn-hero" style="background-color: #4caf50; color: white; margin-top: 15px;">Canjear Puntos</button>
+    </section>
+
+    <!-- Datos Personales -->
+    <section id="datos-personales" class="my-5">
+      <h3 style="color: #4caf50;" class="text-center">Datos Personales</h3>
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td><strong>Nombre Completo:</strong></td>
+            <td>Pepito Perez</td>
+          </tr>
+          <tr>
+            <td><strong>Correo Electrónico:</strong></td>
+            <td>pepito@ecopuntos.com</td>
+          </tr>
+          <tr>
+            <td><strong>Teléfono:</strong></td>
+            <td>+57 300 123 4567</td>
+          </tr>
+          <tr>
+            <td><strong>Documento:</strong></td>
+            <td>123456789</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Cambio de Contraseña -->
+    <section id="cambio-contrasena" class="my-5">
+      <h3 style="color: #4caf50;" class="text-center">Cambiar Contraseña</h3>
+      <form>
+        <div class="form-group">
+          <label for="contraseña-actual">Contraseña Actual:</label>
+          <input type="password" id="contraseña-actual" class="form-control" placeholder="********">
+        </div>
+        <div class="form-group">
+          <label for="nueva-contraseña">Nueva Contraseña:</label>
+          <input type="password" id="nueva-contraseña" class="form-control" placeholder="********">
+        </div>
+        <div class="form-group">
+          <label for="confirmar-contraseña">Confirmar Nueva Contraseña:</label>
+          <input type="password" id="confirmar-contraseña" class="form-control" placeholder="********">
+        </div>
+        <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content container">
+      <div class="row">
+        <div class="footer-left col-md-8">
+          <p>Calle 72 # 10-34 Torre A Oficina 1004, Centro de Negocios Avenida Chile.</p>
+          <p>Teléfono: (+57) 317 405 0510 – (601) 443 1940</p>
+        </div>
+        <div class="footer-right col-md-4 text-md-right">
+          <a href="./iniciosesionperfil.html" class="cta-link">Regresar al Inicio</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom text-center mt-3">
+      <p>© 2025 Eco Puntos. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>

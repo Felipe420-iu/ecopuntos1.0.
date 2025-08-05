@@ -1,0 +1,297 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Sesiones Activas - EcoPuntos{% endblock %}
+
+{% block extra_css %}
+<style>
+    .session-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .session-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .session-current {
+        border-left: 4px solid #28a745;
+        background: #f8fff9;
+    }
+    
+    .session-remote {
+        border-left: 4px solid #ffc107;
+    }
+    
+    .session-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .session-info {
+        flex: 1;
+    }
+    
+    .session-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .ip-address {
+        font-family: 'Courier New', monospace;
+        background: #f8f9fa;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+    
+    .device-info {
+        color: #6c757d;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+    
+    .last-activity {
+        color: #6c757d;
+        font-size: 0.85em;
+    }
+    
+    .security-alert {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .attempt-item {
+        background: #f8f9fa;
+        border-radius: 6px;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-left: 3px solid #dc3545;
+    }
+    
+    .btn-danger-outline {
+        color: #dc3545;
+        border-color: #dc3545;
+        background: transparent;
+    }
+    
+    .btn-danger-outline:hover {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .stats-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-shield-alt"></i> Gestión de Sesiones</h2>
+                <a href="{% url 'perfil' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver al Perfil
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="stats-card">
+                <h5><i class="fas fa-laptop"></i> Sesiones Activas</h5>
+                <h3>{{ total_sesiones }}</h3>
+                <small>Dispositivos conectados actualmente</small>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="stats-card">
+                <h5><i class="fas fa-exclamation-triangle"></i> Intentos Sospechosos</h5>
+                <h3>{{ intentos_recientes|length }}</h3>
+                <small>Intentos de acceso desde IPs diferentes</small>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Alertas de Seguridad -->
+    {% if intentos_recientes %}
+    <div class="security-alert">
+        <h5><i class="fas fa-exclamation-triangle text-warning"></i> Alertas de Seguridad</h5>
+        <p>Se han detectado intentos de acceso desde direcciones IP diferentes a las autorizadas:</p>
+        <div class="mt-3">
+            {% for intento in intentos_recientes|slice:":3" %}
+            <div class="attempt-item">
+                <strong>IP:</strong> <span class="ip-address">{{ intento.ip_address }}</span>
+                <br>
+                <strong>Fecha:</strong> {{ intento.fecha_intento|date:"d/m/Y H:i" }}
+                <br>
+                <strong>URL:</strong> {{ intento.url_intento }}
+            </div>
+            {% endfor %}
+            {% if intentos_recientes|length > 3 %}
+            <small class="text-muted">Y {{ intentos_recientes|length|add:"-3" }} intentos más...</small>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Acciones Globales -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-tools"></i> Acciones de Seguridad</h5>
+                    <p class="card-text">Gestiona todas tus sesiones activas desde aquí.</p>
+                    {% if total_sesiones > 1 %}
+                    <form method="post" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres cerrar todas las demás sesiones?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="cerrar_todas">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Todas las Demás Sesiones
+                        </button>
+                    </form>
+                    {% else %}
+                    <button class="btn btn-secondary" disabled>
+                        <i class="fas fa-info-circle"></i> Solo tienes una sesión activa
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lista de Sesiones -->
+    <div class="row">
+        <div class="col-12">
+            <h4><i class="fas fa-list"></i> Sesiones Activas ({{ total_sesiones }})</h4>
+            
+            {% for sesion in sesiones %}
+            <div class="session-card {% if sesion.es_actual %}session-current{% else %}session-remote{% endif %}">
+                <div class="session-header">
+                    <div class="session-info">
+                        <h5>
+                            {% if sesion.es_actual %}
+                                <i class="fas fa-desktop text-success"></i> Sesión Actual
+                            {% else %}
+                                <i class="fas fa-laptop text-warning"></i> Sesión Remota
+                            {% endif %}
+                        </h5>
+                        <div class="ip-address">{{ sesion.ip_address }}</div>
+                        <div class="device-info">
+                            <strong>Dispositivo:</strong> {{ sesion.dispositivo_id|slice:":8" }}...
+                        </div>
+                        <div class="device-info">
+                            <strong>Navegador:</strong> 
+                            {% if "Chrome" in sesion.user_agent %}
+                                <i class="fab fa-chrome"></i> Chrome
+                            {% elif "Firefox" in sesion.user_agent %}
+                                <i class="fab fa-firefox"></i> Firefox
+                            {% elif "Safari" in sesion.user_agent %}
+                                <i class="fab fa-safari"></i> Safari
+                            {% elif "Edge" in sesion.user_agent %}
+                                <i class="fab fa-edge"></i> Edge
+                            {% else %}
+                                <i class="fas fa-globe"></i> Otro
+                            {% endif %}
+                        </div>
+                        <div class="last-activity">
+                            <i class="fas fa-clock"></i> Última actividad: {{ sesion.ultima_actividad|timesince }} atrás
+                        </div>
+                        <div class="last-activity">
+                            <i class="fas fa-calendar"></i> Creada: {{ sesion.fecha_creacion|date:"d/m/Y H:i" }}
+                        </div>
+                    </div>
+                    
+                    <div class="session-actions">
+                        {% if not sesion.es_actual %}
+                        <form method="post" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres cerrar esta sesión?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="cerrar_sesion">
+                            <input type="hidden" name="sesion_id" value="{{ sesion.id }}">
+                            <button type="submit" class="btn btn-sm btn-danger-outline">
+                                <i class="fas fa-times"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                        {% else %}
+                        <span class="badge badge-success">Sesión Actual</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if sesion.es_actual %}
+                <div class="alert alert-success mb-0">
+                    <i class="fas fa-info-circle"></i> Esta es tu sesión actual. No puedes cerrarla desde aquí.
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No tienes sesiones activas.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Información de Seguridad -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-shield-alt"></i> Información de Seguridad</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success"></i> Cada sesión está vinculada a una dirección IP específica</li>
+                        <li><i class="fas fa-check text-success"></i> Si intentas acceder desde una IP diferente, la sesión se invalidará automáticamente</li>
+                        <li><i class="fas fa-check text-success"></i> Las sesiones expiran automáticamente después de 24 horas de inactividad</li>
+                        <li><i class="fas fa-check text-success"></i> Puedes cerrar sesiones remotas en cualquier momento</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-refresh cada 30 segundos
+setTimeout(function() {
+    location.reload();
+}, 30000);
+
+// Mostrar confirmación antes de cerrar sesiones
+document.querySelectorAll('form').forEach(function(form) {
+    if (form.querySelector('input[name="action"]')) {
+        form.addEventListener('submit', function(e) {
+            const action = form.querySelector('input[name="action"]').value;
+            if (action === 'cerrar_todas') {
+                if (!confirm('¿Estás seguro de que quieres cerrar todas las demás sesiones? Esto desconectará todos los otros dispositivos.')) {
+                    e.preventDefault();
+                }
+            } else if (action === 'cerrar_sesion') {
+                if (!confirm('¿Estás seguro de que quieres cerrar esta sesión?')) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,96 @@
+/* Estilos generales */
+body {
+    background-color: #e8f5e9; /* Verde claro */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.register-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Encabezado */
+h3 {
+    text-align: center;
+    color: #4caf50; /* Verde vibrante */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #388e3c; /* Verde más oscuro */
+}
+
+/* Campos de entrada */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #bdbdbd; /* Gris claro */
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 5px #4caf50;
+}
+
+/* Botón de registro */
+.btn-register {
+    width: 100%;
+    background-color: #4caf50; /* Verde principal */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-register:hover {
+    background-color: #388e3c; /* Verde más oscuro */
+}
+
+/* Sección del logo */
+.register-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* Bordes suaves */
+}
+
+/* Pie de página */
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #4caf50;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer a {
+    color: #388e3c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: #020c02; /* Verde más claro */
+}

@@ -1,0 +1,1052 @@
+/* =====================================
+   RESETEOS Y ESTILOS GLOBALES
+===================================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f2f2f2;
+  line-height: 1.6;
+  color: #333;
+  height: 100vh;
+}
+    /* Estilo para el nuevo header compacto con posición fixed */
+    .header-compact {
+      padding: 0.5rem 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: fixed; /* Cambiamos de sticky a fixed para mayor compatibilidad */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1050; /* Aumentamos el z-index para asegurar que esté por encima de todo */
+      background-color: #fff;
+      transition: all 0.3s ease;
+    }
+    
+    /* Ajustamos el espacio para el contenido principal para compensar el header fixed */
+    body {
+      padding-top: 70px; /* Ajusta este valor según la altura de tu header */
+    }
+    
+    /* Estilo para cuando el header se hace fixed tras scroll */
+    .header-compact.scrolled {
+      padding: 0.25rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+    
+    /* Para el video, aseguramos que no genere problemas de stacking context */
+    .nosotros-video {
+      position: relative;
+      z-index: 1; /* Un z-index menor que el header */
+    }
+    
+    /* Ajustes al video para asegurar que no cause problemas */
+    video {
+      max-width: 100%;
+      display: block;
+      position: relative;
+    }
+    
+    /* Logo y título más compacto */
+    .logo-compact {
+      max-width: 40px;
+      margin-right: 8px;
+    }
+    
+    .title-compact {
+      font-size: 1.25rem;
+      margin-bottom: 0;
+      font-weight: 600;
+    }
+    
+    /* Menú de navegación compacto */
+    .nav-compact .nav-link {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+    }
+    
+    /* Botones de acceso compactos */
+    .access-buttons {
+      display: flex;
+      align-items: center;
+    }
+    
+    .access-buttons .nav-link {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.9rem;
+    }
+    
+    /* Iniciar sesión en color negro */
+    .login-btn {
+      color: #000 !important; /* Negro */
+    }
+    
+    .login-btn:hover {
+      color: #4caf50 !important; /* Verde al pasar el cursor */
+      transition: color 0.3s ease;
+    }
+    
+    .register-btn {
+      border: 1px solid #4caf50;
+      border-radius: 4px;
+      padding: 0.4rem 1rem !important;
+      color: #af4c4c;
+      transition: all 0.3s ease;
+    }
+    
+    .register-btn:hover {
+      background-color: #4caf50;
+      color: white !important;
+    }
+    
+    /* Efecto hover para elementos de navegación */
+    .navbar-nav .nav-link:hover {
+      color: #4caf50 !important;
+      transition: color 0.3s ease;
+    }
+
+    /* Para el enlace de registro con borde */
+    a[href="./registrate.html"]:hover {
+      background-color: #4caf50;
+      color: white !important;
+      transition: all 0.3s ease;
+    }
+/* =====================================
+   SECCIÓN HERO (INICIO)
+===================================== */
+/* Sección Hero */
+#hero {
+  width: 100%;
+  height: 900px;
+  position: relative;
+  background-image: url("../img/nature-3294681_1920\ \(1\)\ \(1\).jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+/* Agregamos un overlay para difuminar */
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Ajusta la opacidad cambiando el último valor */
+  backdrop-filter: blur(3px); /* Ajusta el valor de blur según necesites */
+}
+
+/* Aseguramos que el contenido esté por encima del overlay */
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1 {
+  color: #ffffff;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.btn-hero {
+  background-color: #4caf50;
+  color: #fdfdfd;
+  padding: 10px 30px;
+  text-decoration: none;
+  font-weight: bold;
+
+}
+
+/* =====================================
+   SECCIÓN "NOSOTROS" (QUIÉNES SOMOS)
+===================================== */
+#nosotros {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(248, 255, 249, 0) 100%);
+  padding: 80px 40px;
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  margin: 50px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+#nosotros::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../img/nature-3294681_1920 (1) (1).jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3; /* Aumentado de 0.03 a 0.3 para mayor visibilidad */
+  z-index: 0;
+}
+
+.nosotros-texto {
+  background: rgba(255, 255, 255, 0.85); /* Reducido de 0.97 para ver más el fondo */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(76, 175, 80, 0.05);
+  position: relative;
+  z-index: 1;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.nosotros-texto:hover {
+  transform: translateY(-10px);
+}
+
+.nosotros-texto h1 {
+  color: #00A13A;
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  position: relative;
+  display: inline-block;
+}
+
+.nosotros-texto h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50%;
+  height: 4px;
+  background: linear-gradient(to right, #c5f0c7, transparent);
+  border-radius: 2px;
+}
+
+.nosotros-texto p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.nosotros-video {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.nosotros-video video {
+  border-radius: 20px;
+  transition: all 0.5s ease-in-out;
+  width: 100%;
+}
+
+.nosotros-video::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.nosotros-video:hover video {
+  transform: scale(1.05);
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 768px) {
+  #nosotros {
+    padding: 40px 20px;
+  }
+
+  .nosotros-texto {
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .nosotros-texto h1 {
+    font-size: 2rem;
+  }
+
+  .nosotros-texto p {
+    font-size: 1.1rem;
+  }
+}
+
+/* Para mejorar la disposición en pantallas pequeñas */
+@media (max-width: 768px) {
+  .d-flex {
+    flex-direction: column;
+  }
+
+  .nosotros-texto {
+    margin-bottom: 20px;
+  }
+
+  .nosotros-video video {
+    width: 100%;
+  }
+}
+
+/* =====================================
+  SECCIÓN CATEGORÍAS
+===================================== */
+/* Estilos generales de la sección de categorías */
+#categorias {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(248, 255, 249, 0) 100%);
+  padding: 90px 40px;
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  margin: 50px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+#categorias::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../img/nature-3294681_1920 (1) (1).jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.nosotros-texto {
+  background: rgba(255, 255, 255, 0.85); /* Reducido de 0.97 para ver más el fondo */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(76, 175, 80, 0.05);
+  position: relative;
+  z-index: 1;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.nosotros-texto:hover {
+  transform: translateY(-10px);
+}
+
+.nosotros-texto h1 {
+  color: #00A13A;
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  position: relative;
+  display: inline-block;
+}
+
+.nosotros-texto h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50%;
+  height: 4px;
+  background: linear-gradient(to right, #c5f0c7, transparent);
+  border-radius: 2px;
+}
+
+.nosotros-texto p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.nosotros-video {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.nosotros-video video {
+  border-radius: 20px;
+  transition: all 0.5s ease-in-out;
+  width: 100%;
+}
+
+.nosotros-video::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.nosotros-video:hover video {
+  transform: scale(1.05);
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 768px) {
+  #nosotros {
+    padding: 40px 20px;
+  }
+
+  .nosotros-texto {
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .nosotros-texto h1 {
+    font-size: 2rem;
+  }
+
+  .nosotros-texto p {
+    font-size: 1.1rem;
+  }
+}
+
+/* Para mejorar la disposición en pantallas pequeñas */
+@media (max-width: 768px) {
+  .d-flex {
+    flex-direction: column;
+  }
+
+  .nosotros-texto {
+    margin-bottom: 20px;
+  }
+
+  .nosotros-video video {
+    width: 100%;
+  }
+}
+
+/* =====================================
+  SECCIÓN CATEGORÍAS
+===================================== */
+/* Estilos generales de la sección de categorías */
+#categorias {
+  margin-top: 50px;
+}
+
+/* Tarjetas de categorías */
+.card {
+  border: 2px solid #4caf50;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 30px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Imágenes dentro de las tarjetas */
+.card img {
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  height: 250px; /* Aumentado de 180px a 250px */
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Botón de "Ver Más" */
+details summary {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+details summary:hover {
+  background-color: #388e3c;
+}
+
+/* Estilos para el texto desplegable */
+details p {
+  margin-top: 15px;
+  font-size: 15px;
+  color: #333;
+  padding: 15px;
+  background-color: #f1f8e9;
+  border-radius: 8px;
+  border: 1px solid #4caf50;
+}
+
+/* Nuevo botón de Explorar Categorías */
+.explorar-btn {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.explorar-btn:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Para evitar el estilo de lista por defecto */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* =====================================
+   SECCIÓN DE LLAMADO A LA ACCIÓN (CTA)
+===================================== */
+#cta {
+  background: linear-gradient(135deg, #1c751000, #1c751000);
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 10px;
+  margin: 30px auto;
+  max-width: 1000px;
+}
+
+#cta h2 {
+  color: #fff;
+  font-size: 2em;
+  margin-bottom: 15px;
+}
+
+#cta p {
+  color: #fff;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.cta-btn {
+  background-color: #fff;
+  color: #4caf50;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #e8f5e9;
+}
+
+/* =====================================
+   SECCIONES LOGIN Y REGISTRO
+===================================== */
+#login,
+#registro {
+  padding: 20px;
+}
+
+#login h3,
+#registro h3 {
+  color: #4caf50;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#login p,
+#registro p {
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Estilos generales del footer */
+.main-footer {
+  background-color: #2c3e50; /* Azul oscuro elegante */
+  color: #ffffff;
+  padding: 30px 0;
+  text-align: center;
+}
+
+/* Contenido del footer */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Sección izquierda del footer */
+.footer-left {
+  text-align: left;
+}
+
+.footer-left p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+/* Enlaces del footer */
+.footer-bottom a {
+  color: white; /* Blanco los enlaces */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.footer-bottom a:hover {
+  color: #51eb56;
+}
+
+/* Iconos sociales */
+.social-icons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.social-icons li {
+  margin: 0 10px;
+}
+
+.social-icons a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: #34495e; /* Azul grisáceo */
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.social-icons a:hover {
+  background-color: #00ff7f; /* Verde neón */
+  transform: scale(1.1);
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-left {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+}
+
+
+/* =====================================
+   RESPONSIVE (AJUSTES BÁSICOS)
+===================================== */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav.menu a {
+    display:flex;
+    margin: 5px 0;
+  }
+}
+.footer-logo {
+  max-width: 100px;
+  height: auto;
+}
+.d-flex{
+  display: flex;
+  justify-content: space-between;
+}
+/* =====================================
+  SECCIÓN DE IMPACTO AMBIENTAL
+===================================== */
+#impacto {
+  position: relative;
+  background-image: url('../img/eco-background.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  color: #ffffff !important;
+  padding: 80px 0;
+  isolation: isolate;
+}
+
+#impacto::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+#impacto .container {
+  position: relative;
+  z-index: 2;
+}
+
+#impacto .section-header h2 {
+  color: #ffffff !important;
+}
+
+#impacto .counter-icon {
+  color: #ffffff !important;
+}
+
+#impacto .counter-number,
+#impacto .counter-label,
+#impacto .section-header span.badge {
+  color: #ffffff !important;
+  position: relative;
+}
+
+#impacto .divider {
+  background-color: #ffffff !important;
+}
+
+#impacto * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Estilos para la sección de Testimonios */
+.testimonial-card {
+  background: rgb(159, 240, 148);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(76, 175, 80, 0.1);
+}
+
+.testimonial-image img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 3px solid #4caf50;
+}
+
+/* Estilos para la sección Cómo Funciona */
+.step-card {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-10px);
+}
+
+.step-number {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 40px;
+  height: 40px;
+  background: #4caf50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.step-icon {
+  font-size: 40px;
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+/* Estilos para la sección de recompensas */
+.eco-rewards-section {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(248, 255, 249, 0) 100%);
+  padding: 80px 40px;
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  margin: 50px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.eco-rewards-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../img/arbol.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+/* Efecto de partículas */
+.eco-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  background-image: radial-gradient(#fff 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: particleMove 20s linear infinite;
+}
+
+/* Contenido principal */
+.rewards-container {
+  position: relative;
+  z-index: 2;
+  color: rgb(7, 0, 0);
+}
+
+.rewards-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.pulse-animation {
+  margin-right: 10px;
+  animation: pulse 2s infinite;
+}
+
+.rewards-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Características */
+.rewards-features {
+  margin-bottom: 40px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 24px;
+}
+
+.feature-text h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.feature-text p {
+  margin: 5px 0 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+/* Botón de registro */
+.btn-register-now {
+  display: inline-flex;
+  align-items: center;
+  background: white;
+  color: #4caf50;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-register-now:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.btn-register-now i {
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+
+.btn-register-now:hover i {
+  transform: translateX(5px);
+}
+
+/* Contador de usuarios */
+.users-count {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.users-avatars {
+  display: flex;
+  margin-right: 15px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -10px;
+  border: 2px solid #4caf50;
+}
+
+/* Animación del lado derecho */
+.rewards-animation {
+  position: relative;
+  height: 400px;
+}
+
+.floating-elements {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.eco-element {
+  position: absolute;
+  font-size: 2rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.bottle { top: 20%; left: 30%; animation-delay: 0s; }
+.paper { top: 50%; left: 60%; animation-delay: 0.5s; }
+.tree { top: 30%; left: 70%; animation-delay: 1s; }
+.coin-1 { top: 40%; left: 40%; animation-delay: 1.5s; }
+.coin-2 { top: 60%; left: 50%; animation-delay: 2s; }
+
+.points-popup {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  color: #4caf50;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  animation: popUp 2s ease-in-out infinite;
+  opacity: 0;
+}
+
+/* Animaciones */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes popUp {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { transform: translateY(-20px); opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+@keyframes particleMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .rewards-title {
+    font-size: 2rem;
+  }
+  
+  .rewards-animation {
+    height: 300px;
+  }
+  
+  .feature-item {
+    padding: 10px;
+  }
+  
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
