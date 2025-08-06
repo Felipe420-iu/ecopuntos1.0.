@@ -47,8 +47,8 @@ class SecurityManager:
         ip_address = SecurityManager.get_client_ip(request)
         user_agent = request.META.get('HTTP_USER_AGENT', '')
         
-        # Expiración de sesión (24 horas)
-        expiration = timezone.now() + timedelta(hours=24)
+        # Expiración de sesión (20 minutos de inactividad)
+        expiration = timezone.now() + timedelta(minutes=20)
         
         # Crear la sesión
         session = SesionUsuario.objects.create(
@@ -115,8 +115,9 @@ class SecurityManager:
             session.save()
             return False, f"Acceso denegado: IP no autorizada. Sesión iniciada desde {session.ip_address}, intento desde {current_ip}"
         
-        # Actualizar última actividad
+        # Actualizar última actividad y extender expiración por 20 minutos más
         session.ultima_actividad = timezone.now()
+        session.fecha_expiracion = timezone.now() + timedelta(minutes=20)
         session.save()
         
         return True, "Sesión válida"
@@ -167,6 +168,35 @@ class SecurityManager:
         )
         expired_sessions.update(activa=False)
         return expired_sessions.count()
+    
+    @staticmethod
+    def cleanup_inactive_sessions():
+        """Limpia sesiones inactivas por más de 20 minutos"""
+        inactive_time = timezone.now() - timedelta(minutes=20)
+        inactive_sessions = SesionUsuario.objects.filter(
+            ultima_actividad__lt=inactive_time,
+            activa=True
+        )
+        inactive_sessions.update(activa=False)
+        return inactive_sessions.count()
+    
+    @staticmethod
+    def get_active_sessions_for_monitoring():
+        """Obtiene todas las sesiones activas para el monitor de seguridad"""
+        return SesionUsuario.objects.filter(
+            activa=True
+        ).select_related('usuario').order_by('-ultima_actividad')
+    
+    @staticmethod
+    def force_logout_session(session_id):
+        """Fuerza el cierre de una sesión específica"""
+        try:
+            session = SesionUsuario.objects.get(id=session_id, activa=True)
+            session.activa = False
+            session.save()
+            return True, f"Sesión de {session.usuario.username} cerrada exitosamente"
+        except SesionUsuario.DoesNotExist:
+            return False, "Sesión no encontrada o ya cerrada"
     
     @staticmethod
     def create_security_notification(user, message):

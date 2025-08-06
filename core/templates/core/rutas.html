@@ -94,12 +94,13 @@
                                 <thead>
                                     <tr>
                             <th>ID</th>
-                                        <th>Fecha</th>
-                                        <th>Hora</th>
-                                        <th>Barrio</th>
-                                        <th>Referencia</th>
-                                        <th>Dirección</th>
-                            <th>Acciones</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Barrio</th>
+                                    <th>Referencia</th>
+                                    <th>Dirección</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,25 +112,59 @@
                                             <td>{{ route.barrio }}</td>
                                             <td>{{ route.referencia }}</td>
                                             <td>{{ route.direccion }}</td>
+                                            <td>
+                                                <span class="badge 
+                                                    {% if route.estado == 'pendiente' %}bg-warning
+                                                    {% elif route.estado == 'confirmada' %}bg-success
+                                                    {% elif route.estado == 'rechazada' %}bg-danger
+                                                    {% elif route.estado == 'reagendada' %}bg-info
+                                                    {% elif route.estado == 'completada' %}bg-secondary
+                                                    {% endif %}">
+                                                    {{ route.get_estado_display }}
+                                                </span>
+                                            </td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm edit-btn" 
+                                {% if route.estado == 'pendiente' %}
+                                    <button type="button" class="btn btn-success btn-sm me-1" 
+                                            onclick="confirmarRuta({{ route.id }})" 
+                                            title="Confirmar">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm me-1" 
+                                            onclick="rechazarRuta({{ route.id }})" 
+                                            title="Rechazar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-info btn-sm me-1" 
+                                            data-bs-toggle="modal" data-bs-target="#reagendarModal"
+                                            data-id="{{ route.id }}"
+                                            data-fecha="{{ route.fecha|date:"Y-m-d" }}"
+                                            data-hora="{{ route.hora|time:"H:i" }}"
+                                            title="Reagendar">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </button>
+                                {% endif %}
+                                <button type="button" class="btn btn-primary btn-sm me-1 edit-btn" 
                                         data-bs-toggle="modal" data-bs-target="#editRouteModal"
                                         data-id="{{ route.id }}"
                                         data-fecha="{{ route.fecha|date:"Y-m-d" }}"
                                         data-hora="{{ route.hora|time:"H:i" }}"
                                         data-barrio="{{ route.barrio }}"
                                         data-referencia="{{ route.referencia }}"
-                                        data-direccion="{{ route.direccion }}">
+                                        data-direccion="{{ route.direccion }}"
+                                        title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="{{ route.id }}">
+                                <button type="button" class="btn btn-danger btn-sm delete-btn" 
+                                        data-id="{{ route.id }}"
+                                        title="Eliminar">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="7" class="text-center">No hay rutas para mostrar.</td>
+                            <td colspan="8" class="text-center">No hay rutas para mostrar.</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -238,6 +273,40 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteRouteBtn">Eliminar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Reagendar Ruta -->
+    <div class="modal fade" id="reagendarModal" tabindex="-1" aria-labelledby="reagendarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reagendarModalLabel">Reagendar Ruta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="reagendarForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="reagendarRouteId" name="id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="reagendarFecha" class="form-label">Nueva Fecha</label>
+                            <input type="date" class="form-control" id="reagendarFecha" name="fecha" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reagendarHora" class="form-label">Nueva Hora</label>
+                            <input type="time" class="form-control" id="reagendarHora" name="hora" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reagendarNotas" class="form-label">Motivo del Reagendamiento</label>
+                            <textarea class="form-control" id="reagendarNotas" name="notas_admin" rows="3" placeholder="Explique el motivo del reagendamiento..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-info">Reagendar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -371,7 +440,102 @@
                     }
                 });
             });
+
+            // Rellenar Modal Reagendar al abrir
+            $('#reagendarModal').on('show.bs.modal', function(event) {
+                let button = $(event.relatedTarget);
+                let routeId = button.data('id');
+                let fecha = button.data('fecha');
+                let hora = button.data('hora');
+
+                $('#reagendarRouteId').val(routeId);
+                $('#reagendarFecha').val(fecha);
+                $('#reagendarHora').val(hora);
+            });
+
+            // Manejo de formulario Reagendar Ruta
+            $('#reagendarForm').on('submit', function(e) {
+                e.preventDefault();
+                let form = $(this);
+                let routeId = $('#reagendarRouteId').val();
+                let formData = form.serialize();
+
+                $.ajax({
+                    url: '/reagendar_ruta/' + routeId + '/',
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            $('#reagendarModal').modal('hide');
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1500);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        toastr.error('Ha ocurrido un error. Por favor, intente nuevamente.');
+                        console.error('Error AJAX:', xhr.responseText);
+                    }
+                });
+            });
         });
+
+        // Función para confirmar ruta
+        function confirmarRuta(routeId) {
+            if (confirm('¿Está seguro de que desea confirmar esta ruta?')) {
+                $.ajax({
+                    url: '/confirmar_ruta/' + routeId + '/',
+                    type: 'POST',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1500);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        toastr.error('Ha ocurrido un error. Por favor, intente nuevamente.');
+                        console.error('Error AJAX:', xhr.responseText);
+                    }
+                });
+            }
+        }
+
+        // Función para rechazar ruta
+        function rechazarRuta(routeId) {
+            let motivo = prompt('Ingrese el motivo del rechazo:');
+            if (motivo !== null && motivo.trim() !== '') {
+                $.ajax({
+                    url: '/rechazar_ruta/' + routeId + '/',
+                    type: 'POST',
+                    data: { 
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        motivo: motivo
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1500);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        toastr.error('Ha ocurrido un error. Por favor, intente nuevamente.');
+                        console.error('Error AJAX:', xhr.responseText);
+                    }
+                });
+            }
+        }
     </script>
 </body>
 </html>

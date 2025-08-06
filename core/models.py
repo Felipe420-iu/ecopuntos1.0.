@@ -1,10 +1,7 @@
 from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 from django.conf import settings
-<<<<<<< HEAD
 from django.utils import timezone
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
 class Usuario(AbstractUser):
     ROLES = (
@@ -14,7 +11,7 @@ class Usuario(AbstractUser):
     role = models.CharField(max_length=10, choices=ROLES, default='user')
     puntos = models.IntegerField(default=0)
     telefono = models.CharField(max_length=20, blank=True, null=True)
-    direccion = models.TextField(blank=True, null=True)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     password_reset_token = models.CharField(max_length=100, blank=True, null=True)
     password_reset_expires = models.DateTimeField(null=True, blank=True)
@@ -108,6 +105,14 @@ class RedencionPuntos(models.Model):
         return f'Redención de {self.usuario.username} - {self.puntos} puntos'
 
 class Ruta(models.Model):
+    ESTADOS = (
+        ('pendiente', 'Pendiente'),
+        ('confirmada', 'Confirmada'),
+        ('rechazada', 'Rechazada'),
+        ('reagendada', 'Reagendada'),
+        ('completada', 'Completada')
+    )
+    
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='rutas', null=True, blank=True)
     fecha = models.DateField()
     hora = models.TimeField()
@@ -115,9 +120,13 @@ class Ruta(models.Model):
     referencia = models.TextField(blank=True, null=True)
     direccion = models.CharField(max_length=255)
     materiales = models.CharField(max_length=255, blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_procesamiento = models.DateTimeField(null=True, blank=True)
+    notas_admin = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f'Ruta el {self.fecha} a las {self.hora} en {self.barrio}'
+        return f'Ruta el {self.fecha} a las {self.hora} en {self.barrio} - {self.get_estado_display()}'
 
 class Alerta(models.Model):
     nombre = models.CharField(max_length=200)
@@ -128,41 +137,7 @@ class Alerta(models.Model):
     def __str__(self):
         return self.nombre
 
-class Configuracion(models.Model):
-    CATEGORIAS = [
-        ('puntos', 'Configuración de Puntos'),
-        ('rutas', 'Configuración de Rutas'),
-        ('materiales', 'Configuración de Materiales'),
-        ('notificaciones', 'Configuración de Notificaciones'),
-        ('general', 'Configuración General'),
-    ]
-    
-    nombre = models.CharField(max_length=100, unique=True)
-    valor = models.TextField()
-    descripcion = models.TextField(blank=True)
-    categoria = models.CharField(max_length=20, choices=CATEGORIAS, default='general')
-    fecha_actualizacion = models.DateTimeField(auto_now=True)
-    
-    TIPOS_CONFIG = [
-        ('texto', 'Texto'),
-        ('numero', 'Número'),
-        ('booleano', 'Booleano'),
-        ('json', 'JSON'),
-        ('lista', 'Lista'),
-    ]
-    tipo = models.CharField(max_length=20, choices=TIPOS_CONFIG, default='texto')
-    
-    def __str__(self):
-        return f"{self.nombre} ({self.get_categoria_display()})"
-    
-    class Meta:
-        verbose_name = 'Configuración'
-        verbose_name_plural = 'Configuraciones'
-        ordering = ['categoria', 'nombre']
 
-    @classmethod
-    def get_configs_by_category(cls, categoria):
-        return cls.objects.filter(categoria=categoria)
 
 class Recompensa(models.Model):
     nombre = models.CharField(max_length=100)
@@ -216,7 +191,6 @@ class Notificacion(models.Model):
     def __str__(self):
         return f"Notificación para {self.usuario.username}: {self.mensaje[:30]}..."
 
-<<<<<<< HEAD
 class SesionUsuario(models.Model):
     """Modelo para manejar sesiones seguras con validación de dispositivos"""
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='sesiones')
@@ -258,33 +232,5 @@ class IntentoAcceso(models.Model):
     
     def __str__(self):
         return f"Intento desde {self.ip_address} - {self.motivo}"
-=======
-class Categoria(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-    descripcion = models.TextField(blank=True)
-    activa = models.BooleanField(default=True)
-
-    class Meta:
-        verbose_name = 'Categoría'
-        verbose_name_plural = 'Categorías'
-
-    def __str__(self):
-        return self.nombre
-
-class Logro(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    tipo = models.CharField(max_length=50)  # Ejemplo: 'nivel', 'canje', 'evento'
-    descripcion = models.TextField()
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    puntos = models.IntegerField(default=0)
-
-    class Meta:
-        verbose_name = 'Logro'
-        verbose_name_plural = 'Logros'
-        ordering = ['-fecha_creacion']
-
-    def __str__(self):
-        return f'{self.usuario.username} - {self.descripcion}'
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
 # Create your models here.

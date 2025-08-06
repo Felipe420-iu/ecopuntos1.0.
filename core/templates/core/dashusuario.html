@@ -373,28 +373,19 @@
       position: fixed;
       bottom: 30px;
       right: 30px;
-<<<<<<< HEAD
       z-index: 1000;
-=======
-      z-index: 100;
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
     }
     
     .float-plus-btn .btn {
       background-color: var(--primary);
       border-color: var(--primary);
-<<<<<<< HEAD
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-=======
-      transition: background-color 0.3s ease;
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
     }
     
     .float-plus-btn .btn:hover {
       background-color: var(--primary-dark);
       border-color: var(--primary-dark);
-<<<<<<< HEAD
       transform: scale(1.1);
     }
     
@@ -452,8 +443,6 @@
     /* Animación de rotación del icono principal */
     .float-plus-btn .btn.active i {
       transform: rotate(45deg);
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
     }
     
     /* Modals */
@@ -823,97 +812,8 @@
   </style>
 </head>
 <body>
-<<<<<<< HEAD
   <!-- Sidebar Simplificado -->
   {% include 'core/components/sidebar_usuario_simplificado.html' %}
-=======
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      {% if user.foto_perfil %}
-        <img src="{{ user.foto_perfil.url }}" alt="Foto de Perfil" class="sidebar-logo">
-      {% else %}
-        <img src="{% static 'core/img/ecop.jpg' %}" alt="Foto de Perfil" class="sidebar-logo">
-      {% endif %}
-      <h1 class="sidebar-title">Eco Puntos</h1>
-    </div>
-    
-    <div class="user-info">
-            <p class="user-name">{{ user.username }}</p>
-            <span class="user-level">{{ current_level }}</span>
-            <p class="mb-1">{{ user.puntos }}/{{ next_level_points }} puntos para el siguiente nivel</p>
-      <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ progress_percentage }}%;" aria-valuenow="{{ user.puntos }}" aria-valuemin="{{ progress_from }}" aria-valuemax="{{ next_level_points }}"></div>
-      </div>
-            <small>{{ user.puntos }} Puntos</small>
-    </div>
-    
-        <ul class="nav-menu list-unstyled">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'dashusuario' %}">
-                    <i class="fas fa-home"></i> <span>Inicio</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'perfil' %}">
-                    <i class="fas fa-user"></i> <span>Perfil</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'pagos' %}">
-                    <i class="fas fa-exchange-alt"></i> <span>Retiros</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'categorias' %}">
-                    <i class="fas fa-boxes"></i> <span>Categorías</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'historial' %}">
-                    <i class="fas fa-history"></i> <span>Historial</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'recompensas' %}">
-                    <i class="fas fa-gift"></i> <span>Recompensas</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'logros' %}">
-                    <i class="fas fa-trophy"></i> <span>Logros</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'solicitar_canje' %}">
-                    <i class="fas fa-exchange-alt me-2"></i><span>Canjes</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'rutasusuario' %}">
-                    <i class="fas fa-route"></i> <span>Rutas</span>
-                </a>
-            </li>
-            <!-- Nuevos elementos de menú -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'ranking' %}">
-                    <i class="fas fa-trophy"></i> <span>Ranking</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'soportusu' %}">
-                    <i class="fas fa-headset"></i> <span>Soporte</span>
-                </a>
-            </li>
-            <!-- Botón de cerrar sesión -->
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" style="background-color: #dc3545; border-radius: 8px; margin-top: 20px;">
-                    <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
-                </a>
-            </li>
-        </ul>
-  </div>
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
   <!-- Main Content -->
   <div class="main-content">
@@ -1104,7 +1004,6 @@
     </div>
   </div>
   
-<<<<<<< HEAD
     <!-- Floating Action Button con Menú -->
     <div class="float-plus-btn">
         <button id="floatMenuBtn" class="btn btn-primary btn-lg rounded-circle shadow-lg" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2rem; border: none;">
@@ -1131,14 +1030,6 @@
             </a>
         </div>
     </div>
-=======
-    <!-- Floating Action Button -->
-    <div class="float-plus-btn">
-        <a href="{% url 'canjes' %}" class="btn btn-primary btn-lg rounded-circle shadow-lg" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-    <i class="fas fa-plus"></i>
-        </a>
-  </div>
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
   <!-- Modal de Confirmación de Logout -->
   <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
@@ -1186,7 +1077,6 @@
                 e.preventDefault();
                 $('#logoutModal').modal('show');
             });
-<<<<<<< HEAD
             
             // Funcionalidad del botón flotante con menú
             let isMenuOpen = false;
@@ -1226,8 +1116,6 @@
                 $('#floatMenuBtn').removeClass('active');
                 isMenuOpen = false;
             });
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
         });
     </script>
 </body>

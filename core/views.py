@@ -7,11 +7,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.crypto import get_random_string
 from django.conf import settings
-<<<<<<< HEAD
 from .models import Usuario, Canje, MaterialTasa, RedencionPuntos, Ruta, Alerta, Configuracion, Categoria, Recompensa, Logro, Notificacion, SesionUsuario, IntentoAcceso
-=======
-from .models import Usuario, Canje, MaterialTasa, RedencionPuntos, Ruta, Alerta, Configuracion, Categoria, Recompensa, Logro, Notificacion
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 from supabase import create_client
 from django.http import JsonResponse
 from decimal import Decimal
@@ -25,11 +21,8 @@ from functools import wraps
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import ProfileForm
 from django.views.decorators.csrf import csrf_exempt
-<<<<<<< HEAD
 from .security import SecurityManager, require_secure_session
 from .statistics import StatisticsManager
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
 # Configuración de Supabase
 supabase_url = 'https://ferrazkesahlbqcitmny.supabase.co'
@@ -43,11 +36,8 @@ def index(request):
 
 def logout_view(request):
     next_url = request.GET.get('next', 'index')
-<<<<<<< HEAD
     # Invalidar sesión segura
     SecurityManager.invalidate_session(request)
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
     logout(request)
     return redirect(next_url)
 
@@ -101,11 +91,8 @@ def iniciosesion(request):
                         'email': user.email,  # Usar email en lugar de username
                         'password': password
                     })
-<<<<<<< HEAD
                     # Crear sesión segura
                     SecurityManager.create_secure_session(request, user)
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
                     auth_login(request, user)
                     
                     # Mostrar notificaciones no leídas
@@ -124,11 +111,8 @@ def iniciosesion(request):
                         return redirect('dashusuario')
                 except Exception as e:
                     # Si falla Supabase pero Django funcionó, aún permitimos el inicio de sesión
-<<<<<<< HEAD
                     # Crear sesión segura
                     SecurityManager.create_secure_session(request, user)
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
                     auth_login(request, user)
                     
                     # Mostrar notificaciones no leídas
@@ -274,7 +258,6 @@ def logros(request):
     logros_usuario = Logro.objects.filter(usuario=request.user).order_by('-fecha_creacion')
     return render(request, 'core/logros.html', {'logros': logros_usuario})
 
-<<<<<<< HEAD
 @login_required
 def sesiones_activas(request):
     """Vista para mostrar y gestionar sesiones activas del usuario"""
@@ -342,8 +325,6 @@ def sesiones_activas(request):
     
     return render(request, 'core/sesiones_activas.html', context)
 
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 def recompensas(request):
     if not request.user.is_authenticated:
         return redirect('iniciosesion')
@@ -1090,7 +1071,6 @@ def get_monthly_data(model, date_field, value_field, start_date, end_date):
 
 @ajax_required_admin
 def get_dashboard_stats(request):
-<<<<<<< HEAD
     """Obtiene estadísticas completas del dashboard usando el nuevo sistema"""
     try:
         stats = StatisticsManager.get_comprehensive_dashboard_stats()
@@ -1103,23 +1083,6 @@ def get_dashboard_stats(request):
             'success': False,
             'error': str(e)
         }, status=500)
-=======
-    User = get_user_model()
-    total_users = User.objects.count()
-    total_canjes = Canje.objects.count()
-    total_rutas = Ruta.objects.count()
-    total_categorias = Categoria.objects.filter(activa=True).count() # Contar solo categorías activas
-    total_alertas = Alerta.objects.filter(activa=True).count() # Contar solo alertas activas
-
-    return JsonResponse({
-        'success': True,
-        'total_users': total_users,
-        'total_canjes': total_canjes,
-        'total_rutas': total_rutas,
-        'total_categorias': total_categorias,
-        'total_alertas': total_alertas,
-    })
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 
 @ajax_required_admin
 def get_chart_data(request):
@@ -1628,7 +1591,6 @@ def rechazar_redencion(request, redencion_id):
     return JsonResponse({
         'success': False,
         'message': 'Método no permitido.'
-<<<<<<< HEAD
     })
 
 @ajax_required_admin
@@ -1797,6 +1759,3 @@ def security_monitor(request):
         return redirect('iniciosesion')
     
     return render(request, 'core/security_monitor.html')
-=======
-    })
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e

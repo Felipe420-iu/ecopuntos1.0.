@@ -38,11 +38,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-<<<<<<< HEAD
     'core.middleware.SecurityMiddleware',
     'core.middleware.RateLimitMiddleware',
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
 ]
 
 ROOT_URLCONF = 'proyecto2023.urls'
@@ -70,17 +67,8 @@ WSGI_APPLICATION = 'proyecto2023.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-=======
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.ferrazkesahlbqcitmny',
-        'PASSWORD': '2025Pipe',
-        'HOST': 'aws-0-us-east-2.pooler.supabase.com',
-        'PORT': '5432',
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
     }
 }
 
@@ -150,11 +138,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'izmaelh9@gmail.com'  # Reemplaza con tu correo de Gmail
 EMAIL_HOST_PASSWORD = 'ueuf zvzw khjg sasu'  # Reemplaza con la contraseña de aplicación generada
 DEFAULT_FROM_EMAIL = 'Eco Puntos <tu_correo@gmail.com>'
-<<<<<<< HEAD
 
 # Configuración de autenticación
 LOGIN_URL = '/iniciosesion/'
 LOGIN_REDIRECT_URL = '/paneladmin/'
 LOGOUT_REDIRECT_URL = '/'
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e

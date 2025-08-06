@@ -44,4 +44,5 @@ class ProfileForm(forms.ModelForm):
         ]
         widgets = {
             'testimonio': forms.Textarea(attrs={'rows': 3}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
         }

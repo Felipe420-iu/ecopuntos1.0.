@@ -158,31 +158,114 @@
             <div class="card bg-primary text-white">
                 <div class="card-body text-center">
                     <h5 class="card-title">Sesiones Activas</h5>
-                    <h3 id="active-sessions">-</h3>
+                    <h3>{{ total_sesiones_activas }}</h3>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card bg-warning text-dark">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Intentos de Acceso</h5>
-                    <h3 id="access-attempts">-</h3>
+                    <h5 class="card-title">Intentos Hoy</h5>
+                    <h3>{{ total_intentos_hoy }}</h3>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card bg-danger text-white">
+            <div class="card bg-info text-white">
                 <div class="card-body text-center">
-                    <h5 class="card-title">IPs Sospechosas</h5>
-                    <h3 id="suspicious-ips">-</h3>
+                    <h5 class="card-title">Tiempo Límite</h5>
+                    <h3>20 min</h3>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card bg-success text-white">
                 <div class="card-body text-center">
-                    <h5 class="card-title">Sesiones Limpias</h5>
-                    <h3 id="cleaned-sessions">-</h3>
+                    <h5 class="card-title">Auto-Limpieza</h5>
+                    <h3><i class="fas fa-check"></i></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sesiones Activas -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5><i class="fas fa-users"></i> Sesiones Activas</h5>
+                    <div>
+                        <button class="btn btn-warning btn-sm me-2" onclick="cleanupInactiveSessions()">
+                            <i class="fas fa-broom"></i> Limpiar Inactivas
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" onclick="location.reload()">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>IP</th>
+                                    <th>Dispositivo</th>
+                                    <th>Última Actividad</th>
+                                    <th>Tiempo Restante</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sesion in sesiones_activas %}
+                                <tr id="session-{{ sesion.id }}">
+                                    <td>
+                                        <strong>{{ sesion.usuario.username }}</strong>
+                                        {% if sesion.usuario.role == 'admin' %}
+                                            <span class="badge bg-danger ms-1">Admin</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ sesion.ip_address }}</td>
+                                    <td>
+                                        <small class="text-muted">
+                                            {% if 'Chrome' in sesion.user_agent %}
+                                                <i class="fab fa-chrome"></i> Chrome
+                                            {% elif 'Firefox' in sesion.user_agent %}
+                                                <i class="fab fa-firefox"></i> Firefox
+                                            {% elif 'Safari' in sesion.user_agent %}
+                                                <i class="fab fa-safari"></i> Safari
+                                            {% else %}
+                                                <i class="fas fa-globe"></i> Otro
+                                            {% endif %}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <span class="time-ago" data-time="{{ sesion.ultima_actividad|date:'c' }}">
+                                            {{ sesion.ultima_actividad|timesince }} ago
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="countdown" data-expiry="{{ sesion.fecha_expiracion|date:'c' }}">
+                                            Calculando...
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" 
+                                                onclick="forceLogoutSession({{ sesion.id }}, '{{ sesion.usuario.username }}')">
+                                            <i class="fas fa-sign-out-alt"></i> Cerrar
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">
+                                        No hay sesiones activas
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -443,8 +526,139 @@ function showAlert(message, type) {
         alertDiv.remove();
     }, 5000);
 }
+
+// Función para cerrar una sesión específica
+function forceLogoutSession(sessionId, username) {
+    if (confirm(`¿Está seguro de que desea cerrar la sesión de ${username}?`)) {
+        fetch('/force-logout-session/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: `session_id=${sessionId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showAlert(data.message, 'success');
+                // Remover la fila de la tabla
+                const row = document.getElementById(`session-${sessionId}`);
+                if (row) {
+                    row.remove();
+                }
+                // Actualizar contador
+                updateSessionCount();
+            } else {
+                showAlert(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error al cerrar la sesión', 'error');
+        });
+    }
+}
+
+// Función para limpiar sesiones inactivas
+function cleanupInactiveSessions() {
+    if (confirm('¿Está seguro de que desea limpiar todas las sesiones inactivas?')) {
+        fetch('/cleanup-sessions-ajax/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showAlert(data.message, 'success');
+                // Recargar la página para mostrar los cambios
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                showAlert('Error al limpiar sesiones', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error al limpiar sesiones', 'error');
+        });
+    }
+}
+
+// Función para obtener el token CSRF
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Función para actualizar contadores de tiempo restante
+function updateCountdowns() {
+    const countdowns = document.querySelectorAll('.countdown');
+    countdowns.forEach(countdown => {
+        const expiryTime = new Date(countdown.dataset.expiry);
+        const now = new Date();
+        const timeLeft = expiryTime - now;
+        
+        if (timeLeft > 0) {
+            const minutes = Math.floor(timeLeft / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            countdown.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Cambiar color según el tiempo restante
+            if (minutes < 5) {
+                countdown.className = 'countdown text-danger fw-bold';
+            } else if (minutes < 10) {
+                countdown.className = 'countdown text-warning fw-bold';
+            } else {
+                countdown.className = 'countdown text-success';
+            }
+        } else {
+            countdown.textContent = 'Expirada';
+            countdown.className = 'countdown text-danger fw-bold';
+        }
+    });
+}
+
+// Función para actualizar el contador de sesiones
+function updateSessionCount() {
+    const rows = document.querySelectorAll('tbody tr:not(:last-child)');
+    const count = rows.length;
+    // Actualizar el contador en la tarjeta si existe
+    const sessionCard = document.querySelector('.card.bg-primary h3');
+    if (sessionCard) {
+        sessionCard.textContent = count;
+    }
+}
+
+// Inicializar contadores y actualizaciones
+document.addEventListener('DOMContentLoaded', function() {
+    // Actualizar contadores cada segundo
+    setInterval(updateCountdowns, 1000);
+    
+    // Actualizar la página cada 30 segundos para mostrar nuevas sesiones
+    setInterval(() => {
+        location.reload();
+    }, 30000);
+    
+    // Inicializar contadores
+    updateCountdowns();
+});
 </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+</html>

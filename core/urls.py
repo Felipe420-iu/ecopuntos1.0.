@@ -12,12 +12,9 @@ urlpatterns = [
     path('canjes/', views.solicitar_canje, name='solicitar_canje'),
     path('historial/', views.historial, name='historial'),
     path('logros/', views.logros, name='logros'),
-<<<<<<< HEAD
     path('sesiones-activas/', views.sesiones_activas, name='sesiones_activas'),
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
     path('recompensas/', views.recompensas, name='recompensas'),
-    path('configuracion/', views.configuracion, name='configuracion'),
+
     path('pagos/', views.pagos, name='pagos'),
     path('usuarioadmin/', views.usuarioadmin, name='usuarioadmin'),
     path('canjeadmin/', views.canjeadmin, name='canjeadmin'),
@@ -36,15 +33,15 @@ urlpatterns = [
     path('add_ruta/', views.add_ruta, name='add_ruta'),
     path('edit_ruta/<int:ruta_id>/', views.edit_ruta, name='edit_ruta'),
     path('delete_ruta/<int:ruta_id>/', views.delete_ruta, name='delete_ruta'),
+    path('confirmar_ruta/<int:ruta_id>/', views.confirmar_ruta, name='confirmar_ruta'),
+    path('rechazar_ruta/<int:ruta_id>/', views.rechazar_ruta, name='rechazar_ruta'),
+    path('reagendar_ruta/<int:ruta_id>/', views.reagendar_ruta, name='reagendar_ruta'),
     path('estadisticasadmin/', views.estadisticasadmin, name='estadisticasadmin'),
     path('alertas/', views.alertas, name='alertas'),
     path('add_alerta/', views.add_alerta, name='add_alerta'),
     path('edit_alerta/', views.edit_alerta, name='edit_alerta'),
     path('delete_alerta/', views.delete_alerta, name='delete_alerta'),
-    path('configuraciones/', views.configuraciones, name='configuraciones'),
-    path('add_configuracion/', views.add_configuracion, name='add_configuracion'),
-    path('edit_configuracion/', views.edit_configuracion, name='edit_configuracion'),
-    path('delete_configuracion/', views.delete_configuracion, name='delete_configuracion'),
+
     path('get_dashboard_stats/', views.get_dashboard_stats, name='get_dashboard_stats'),
     path('get-pending-canjes/', views.get_pending_canjes, name='get_pending_canjes'),
     path('get-pending-canjes-admin/', views.get_pending_canjes_for_admin, name='get_pending_canjes_for_admin'),
@@ -61,14 +58,13 @@ urlpatterns = [
     path('admin/redemptions/<int:redencion_id>/approve/', aprobar_redencion, name='aprobar_redencion'),
     path('admin/redemptions/<int:redencion_id>/reject/', rechazar_redencion, name='rechazar_redencion'),
     path('retiroadmin/', views.retiroadmin, name='retiroadmin'),
-<<<<<<< HEAD
     # Nuevas rutas para estadísticas avanzadas y seguridad
     path('advanced-statistics/', views.get_advanced_statistics, name='get_advanced_statistics'),
     path('security-analytics/', views.get_security_analytics, name='get_security_analytics'),
     path('export-statistics/', views.export_statistics, name='export_statistics'),
     path('cleanup-sessions/', views.cleanup_expired_sessions, name='cleanup_expired_sessions'),
     path('security-monitor/', views.security_monitor, name='security_monitor'),
-=======
->>>>>>> 8644c1ba0da7c61acc16ec4e7bb475e743a7a16e
+    path('force-logout-session/', views.force_logout_session, name='force_logout_session'),
+    path('cleanup-sessions-ajax/', views.cleanup_sessions_ajax, name='cleanup_sessions_ajax'),
 ]
 
